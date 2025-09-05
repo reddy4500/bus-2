@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Add Firebase SDKs HERE -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -201,6 +200,7 @@
                 </button>
                 <h2 class="text-3xl font-bold text-slate-900">Aggregated Fleet Reports</h2>
             </div>
+            
             <div id="charts-container" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                  <div class="lg:col-span-2 bg-white p-6 rounded-lg border shadow-sm">
                     <h3 class="text-xl font-semibold mb-4 text-center text-slate-700">Overall Profit vs. Loss by Bus</h3>
@@ -211,12 +211,59 @@
                      <canvas id="revenuePieChart"></canvas>
                 </div>
             </div>
+
+            <div id="bus-specific-analysis-section" class="hidden">
+                <hr class="my-10 border-slate-300">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4 sm:mb-0">Individual Bus Performance</h2>
+                    <div>
+                        <label for="bus-selector" class="font-medium mr-2 text-slate-600">Select a Bus:</label>
+                        <select id="bus-selector" class="p-2 border border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></select>
+                    </div>
+                </div>
+                <div id="bus-details-container" class="hidden grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
+                    <div class="xl:col-span-1 bg-white p-6 rounded-lg border shadow-sm flex flex-col gap-4">
+                        <h3 class="text-xl font-semibold mb-2 text-slate-800 border-b pb-2">Analysis for Bus: <span id="details-bus-number" class="text-indigo-600 font-bold"></span></h3>
+                        <div class="flex justify-between items-center bg-slate-100 p-3 rounded-md">
+                            <span class="font-semibold text-slate-600">Total Revenue:</span>
+                            <span id="details-total-revenue" class="font-bold text-green-600 text-lg"></span>
+                        </div>
+                         <div class="flex justify-between items-center bg-slate-100 p-3 rounded-md">
+                            <span class="font-semibold text-slate-600">Total Expenses:</span>
+                            <span id="details-total-expense" class="font-bold text-red-600 text-lg"></span>
+                        </div>
+                         <div class="flex justify-between items-center bg-slate-100 p-3 rounded-md">
+                            <span class="font-semibold text-slate-600">Net Profit:</span>
+                            <span id="details-net-profit" class="font-bold text-lg"></span>
+                        </div>
+                        <hr class="my-2">
+                         <div class="flex justify-between items-center bg-green-100 p-3 rounded-md border border-green-200">
+                            <span class="font-semibold text-green-800">Best Month:</span>
+                            <div>
+                                <span id="details-best-month" class="font-bold text-green-800"></span>
+                                <span id="details-best-profit" class="text-sm text-green-700 block text-right"></span>
+                            </div>
+                        </div>
+                         <div class="flex justify-between items-center bg-red-100 p-3 rounded-md border border-red-200">
+                            <span class="font-semibold text-red-800">Worst Month:</span>
+                            <div>
+                                <span id="details-worst-month" class="font-bold text-red-800"></span>
+                                <span id="details-worst-profit" class="text-sm text-red-700 block text-right"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xl:col-span-2 bg-white p-6 rounded-lg border shadow-sm">
+                        <h3 class="text-xl font-semibold mb-4 text-center text-slate-700">Monthly Performance Trend</h3>
+                        <canvas id="monthlyBusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
             <div id="no-charts-message" class="hidden text-center py-16">
                 <h3 class="text-2xl font-semibold text-slate-700">No Data Available</h3>
                 <p class="text-slate-500 mt-2">Please enter some data in the 'Monthly Audit Entry' section to generate reports.</p>
             </div>
         </section>
-
         <section id="payroll-selection" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
             <div class="flex items-center mb-8">
                 <button onclick="showPage('home')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
@@ -317,6 +364,7 @@
         const pages = document.querySelectorAll('.page');
         let profitLossChartInstance = null;
         let revenuePieChartInstance = null;
+        let monthlyBusChartInstance = null; // <-- NEW: For the individual bus chart
         
         // --- Page Navigation ---
         function showPage(pageId) {
@@ -372,46 +420,138 @@
             }
         }
 
+        // ======================================================= //
+        // REPORTING & CHART FUNCTIONS (HEAVILY MODIFIED)          //
+        // ======================================================= //
+
         async function createOrUpdateCharts() {
             try {
                 const snapshot = await database.ref('auditData').once('value');
                 const db = snapshot.val() || {};
                 
-                const busData = {};
                 const hasData = Object.keys(db).length > 0 && Object.values(db).some(month => month && (Array.isArray(month) ? month.length > 0 : Object.keys(month).length > 0));
+
+                // Show/hide relevant containers based on data presence
                 document.getElementById('charts-container').style.display = hasData ? 'grid' : 'none';
+                document.getElementById('bus-specific-analysis-section').style.display = hasData ? 'block' : 'none';
                 document.getElementById('no-charts-message').style.display = hasData ? 'none' : 'block';
+                document.getElementById('bus-details-container').classList.add('hidden'); // Hide details on load
+
                 if (!hasData) return;
                 
-                for (const month in db) {
-                    const monthData = Array.isArray(db[month]) ? db[month] : Object.values(db[month]);
-                    monthData.forEach(entry => {
-                        const bus = entry.busNumber.toUpperCase();
-                        if (!bus) return;
-                        if (!busData[bus]) {
-                            busData[bus] = { revenue: 0, profit: 0, loss: 0 };
-                        }
-                        const profit = entry.revenue - entry.expense;
-                        busData[bus].revenue += entry.revenue;
-                        if (profit >= 0) {
-                            busData[bus].profit += profit;
+                // --- 1. Detailed Data Aggregation (per bus, per month) ---
+                const busData = {};
+                const monthOrder = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                
+                monthOrder.forEach(month => {
+                    if (db[month]) {
+                        const monthData = Array.isArray(db[month]) ? db[month] : Object.values(db[month]);
+                        monthData.forEach(entry => {
+                            const bus = entry.busNumber.toUpperCase();
+                            if (!bus) return;
+                            if (!busData[bus]) {
+                                busData[bus] = { monthlyData: {} };
+                            }
+                            busData[bus].monthlyData[month] = {
+                                revenue: entry.revenue || 0,
+                                expense: entry.expense || 0,
+                                profit: (entry.revenue || 0) - (entry.expense || 0)
+                            };
+                        });
+                    }
+                });
+
+                // --- 2. Create Aggregated Totals for Overview Charts ---
+                const aggregatedTotals = {};
+                Object.keys(busData).forEach(bus => {
+                    aggregatedTotals[bus] = { revenue: 0, profit: 0, loss: 0 };
+                    Object.values(busData[bus].monthlyData).forEach(data => {
+                        aggregatedTotals[bus].revenue += data.revenue;
+                        if (data.profit >= 0) {
+                            aggregatedTotals[bus].profit += data.profit;
                         } else {
-                            busData[bus].loss += profit;
+                            aggregatedTotals[bus].loss += data.profit;
                         }
                     });
-                }
-                const labels = Object.keys(busData).sort();
-                const profitDataset = labels.map(bus => busData[bus].profit);
-                const lossDataset = labels.map(bus => busData[bus].loss);
-                const revenueDataset = labels.map(bus => busData[bus].revenue);
+                });
+                const labels = Object.keys(aggregatedTotals).sort();
+                const profitDataset = labels.map(bus => aggregatedTotals[bus].profit);
+                const lossDataset = labels.map(bus => aggregatedTotals[bus].loss);
+                const revenueDataset = labels.map(bus => aggregatedTotals[bus].revenue);
+                
+                // --- 3. Render Charts and Dropdown ---
                 createBusProfitLossChart(labels, profitDataset, lossDataset);
                 createRevenuePieChart(labels, revenueDataset);
+                populateBusSelector(Object.keys(busData).sort(), busData);
+
 
             } catch (error) {
                 console.error("Could not create charts: ", error);
                 document.getElementById('charts-container').style.display = 'none';
                 document.getElementById('no-charts-message').style.display = 'block';
             }
+        }
+
+        function populateBusSelector(busList, allData) {
+            const selector = document.getElementById('bus-selector');
+            selector.innerHTML = '<option value="">-- Select a Bus --</option>'; // Reset
+            busList.forEach(bus => {
+                const option = document.createElement('option');
+                option.value = bus;
+                option.textContent = bus;
+                selector.appendChild(option);
+            });
+            selector.onchange = () => displayBusDetails(selector.value, allData);
+        }
+
+        function displayBusDetails(busNumber, allData) {
+            const container = document.getElementById('bus-details-container');
+            if (!busNumber) {
+                container.classList.add('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+
+            const data = allData[busNumber].monthlyData;
+            let totalRevenue = 0, totalExpense = 0;
+            let bestProfit = -Infinity, bestMonth = 'N/A';
+            let worstProfit = Infinity, worstMonth = 'N/A';
+
+            Object.entries(data).forEach(([month, values]) => {
+                totalRevenue += values.revenue;
+                totalExpense += values.expense;
+                if (values.profit > bestProfit) {
+                    bestProfit = values.profit;
+                    bestMonth = month;
+                }
+                if (values.profit < worstProfit) {
+                    worstProfit = values.profit;
+                    worstMonth = month;
+                }
+            });
+            const netProfit = totalRevenue - totalExpense;
+
+            // Populate KPI elements
+            document.getElementById('details-bus-number').textContent = busNumber;
+            document.getElementById('details-total-revenue').textContent = '₹' + totalRevenue.toLocaleString();
+            document.getElementById('details-total-expense').textContent = '₹' + totalExpense.toLocaleString();
+            const netProfitEl = document.getElementById('details-net-profit');
+            netProfitEl.textContent = '₹' + netProfit.toLocaleString();
+            netProfitEl.className = `font-bold text-lg ${netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`;
+
+            document.getElementById('details-best-month').textContent = bestMonth;
+            document.getElementById('details-best-profit').textContent = `(₹${bestProfit.toLocaleString()})`;
+            document.getElementById('details-worst-month').textContent = worstMonth;
+            document.getElementById('details-worst-profit').textContent = `(₹${worstProfit.toLocaleString()})`;
+
+            // Prepare data for the monthly chart
+            const monthOrder = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const chartLabels = monthOrder.filter(month => data[month] !== undefined);
+            const revenueValues = chartLabels.map(month => data[month].revenue);
+            const expenseValues = chartLabels.map(month => data[month].expense);
+            const profitValues = chartLabels.map(month => data[month].profit);
+
+            createMonthlyBusChart(chartLabels, revenueValues, expenseValues, profitValues);
         }
 
         // ======================================================= //
@@ -595,6 +735,31 @@
                     }]
                 },
                 options: { responsive: true, plugins: { legend: { position: 'top' }}}
+            });
+        }
+        // <-- NEW --> Chart function for individual bus monthly trend
+        function createMonthlyBusChart(labels, revenueData, expenseData, profitData) {
+            const ctx = document.getElementById('monthlyBusChart').getContext('2d');
+            if (monthlyBusChartInstance) monthlyBusChartInstance.destroy();
+            monthlyBusChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Revenue', data: revenueData,
+                        borderColor: 'rgba(34, 197, 94, 1)', backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        fill: true, tension: 0.3
+                    }, {
+                        label: 'Expenses', data: expenseData,
+                        borderColor: 'rgba(239, 68, 68, 1)', backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true, tension: 0.3
+                    }, {
+                        label: 'Profit', data: profitData,
+                        borderColor: 'rgba(79, 70, 229, 1)', backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        fill: true, tension: 0.3
+                    }]
+                },
+                options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { callback: value => '₹' + value.toLocaleString() }}}}
             });
         }
         function buildPayrollTable(data) {
