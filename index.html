@@ -9,6 +9,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Add Firebase SDKs HERE -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -32,13 +37,11 @@
             background-color: rgba(224, 231, 255, 1);
             box-shadow: 0 0 0 2px #4f46e5;
         }
-        /* Placeholder for empty editable cells */
         [contenteditable=true]:empty:before {
             content: attr(data-placeholder);
-            color: #94a3b8; /* slate-400 */
+            color: #94a3b8;
             font-style: italic;
         }
-        /* New styling for Yaswanth title */
         .yaswanth-title {
             background: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
             -webkit-background-clip: text;
@@ -62,7 +65,7 @@
                 <a href="#" onclick="showPage('bus-wise-audit')" class="text-slate-600 hover:text-indigo-500 font-medium transition-colors">Fleet Reports</a>
                 <a href="#" onclick="showPage('payroll-selection')" class="text-slate-600 hover:text-indigo-500 font-medium transition-colors">Payroll</a>
             </nav>
-            <button id="mobile-menu-button" class="md:hidden text-slate-600 hover:text-indigo-500">
+            <button id="mobile-menu-button" class="md-hidden text-slate-600 hover:text-indigo-500">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </header>
@@ -124,9 +127,7 @@
         <section id="monthly-audit-selection" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
             <div class="flex items-center mb-8">
                 <button onclick="showPage('home')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
                     Back
                 </button>
                 <h2 class="text-3xl font-bold text-slate-900">Select Audit Period</h2>
@@ -150,9 +151,7 @@
         <section id="audit-file" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
              <div class="flex items-center mb-1">
                 <button onclick="showPage('monthly-audit-selection')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
                     Back
                 </button>
                 <h2 class="text-3xl font-bold text-slate-900">Audit File: <span id="audit-file-month"></span></h2>
@@ -188,10 +187,8 @@
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-slate-50 divide-y divide-slate-200" id="audit-table-body">
-                    </tbody>
-                    <tfoot class="bg-slate-200 font-bold" id="audit-table-foot">
-                    </tfoot>
+                    <tbody class="bg-slate-50 divide-y divide-slate-200" id="audit-table-body"></tbody>
+                    <tfoot class="bg-slate-200 font-bold" id="audit-table-foot"></tfoot>
                 </table>
             </div>
         </section>
@@ -199,9 +196,7 @@
         <section id="bus-wise-audit" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
             <div class="flex items-center mb-6">
                 <button onclick="showPage('home')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
                     Back
                 </button>
                 <h2 class="text-3xl font-bold text-slate-900">Aggregated Fleet Reports</h2>
@@ -225,9 +220,7 @@
         <section id="payroll-selection" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
             <div class="flex items-center mb-8">
                 <button onclick="showPage('home')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
                     Back
                 </button>
                 <h2 class="text-3xl font-bold text-slate-900">Select Payroll Month</h2>
@@ -251,9 +244,7 @@
         <section id="payroll-file" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
              <div class="flex items-center mb-1">
                 <button onclick="showPage('payroll-selection')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
                     Back
                 </button>
                 <h2 class="text-3xl font-bold text-slate-900">Payroll Report: <span id="payroll-file-month"></span></h2>
@@ -297,37 +288,35 @@
                             <th class="p-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-slate-50 divide-y divide-slate-200" id="payroll-table-body">
-                    </tbody>
-                    <tfoot class="bg-slate-200 font-bold" id="payroll-table-foot">
-                    </tfoot>
+                    <tbody class="bg-slate-50 divide-y divide-slate-200" id="payroll-table-body"></tbody>
+                    <tfoot class="bg-slate-200 font-bold" id="payroll-table-foot"></tfoot>
                 </table>
             </div>
         </section>
-
-
     </div>
 
     <script>
+        // 1. Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQrSN31bs0dqpyZVT_IeGktPEy7rMrqcQ",
+            authDomain: "yaswanth-fleet.firebaseapp.com",
+            databaseURL: "https://yaswanth-fleet-default-rtdb.firebaseio.com",
+            projectId: "yaswanth-fleet",
+            storageBucket: "yaswanth-fleet.appspot.com",
+            messagingSenderId: "44710091269",
+            appId: "1:44710091269:web:6bffc1ab51aa52723e9a6c",
+            measurementId: "G-LLY5VJN3N6"
+        };
+        // End of Firebase Configuration
+
+        // 2. Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // --- Global Variables ---
         const pages = document.querySelectorAll('.page');
         let profitLossChartInstance = null;
         let revenuePieChartInstance = null;
-        const DB_NAME = 'fleetAuditData';
-        const PAYROLL_DB_PREFIX = 'driverPayrollData_'; // Changed to prefix for monthly storage
-
-        const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-
-        // --- Database Functions ---
-        function getDatabase() {
-            const db = localStorage.getItem(DB_NAME);
-            return db ? JSON.parse(db) : {};
-        }
-
-        function saveDatabase(db) {
-            localStorage.setItem(DB_NAME, JSON.stringify(db));
-            console.log('Audit Database saved.');
-        }
         
         // --- Page Navigation ---
         function showPage(pageId) {
@@ -342,15 +331,138 @@
             }
         }
 
-        function showAuditFile(month) {
+        // ======================================================= //
+        // AUDIT FUNCTIONS (MODIFIED FOR FIREBASE)                 //
+        // ======================================================= //
+
+        async function showAuditFile(month) {
             document.getElementById('audit-file-month').textContent = month;
-            const db = getDatabase();
-            const monthData = db[month] || [];
-            buildTableWithData(monthData);
-            showPage('audit-file');
+            try {
+                const snapshot = await database.ref(`auditData/${month}`).once('value');
+                const monthData = snapshot.val() || [];
+                // Firebase returns an object for arrays, so we must convert it if needed
+                const dataArray = Array.isArray(monthData) ? monthData : Object.values(monthData);
+                buildTableWithData(dataArray);
+                showPage('audit-file');
+            } catch (error) {
+                console.error("Could not fetch audit data: ", error);
+                alert("Error fetching data. Check console for details.");
+            }
+        }
+        
+        async function saveTableData() {
+            const month = document.getElementById('audit-file-month').textContent;
+            if (!month) return alert('Error: No month selected.');
+            const monthData = [];
+            document.querySelectorAll('#audit-table-body tr').forEach(row => {
+                const busNumber = row.querySelector('.bus-number-cell').innerText.trim().toUpperCase();
+                const revenue = parseCurrency(row.querySelector('.revenue-cell').innerText);
+                const expense = parseCurrency(row.querySelector('.expense-cell').innerText);
+                if (busNumber || revenue || expense) {
+                    monthData.push({ busNumber, revenue, expense });
+                }
+            });
+            
+            try {
+                await database.ref(`auditData/${month}`).set(monthData);
+                alert(`Audit data for ${month} saved successfully!`);
+            } catch (error) {
+                console.error("Error saving audit data: ", error);
+                alert("Error saving data to Firebase. See console for details.");
+            }
         }
 
-        // --- Audit Table Management ---
+        async function createOrUpdateCharts() {
+            try {
+                const snapshot = await database.ref('auditData').once('value');
+                const db = snapshot.val() || {};
+                
+                const busData = {};
+                const hasData = Object.keys(db).length > 0 && Object.values(db).some(month => month && (Array.isArray(month) ? month.length > 0 : Object.keys(month).length > 0));
+                document.getElementById('charts-container').style.display = hasData ? 'grid' : 'none';
+                document.getElementById('no-charts-message').style.display = hasData ? 'none' : 'block';
+                if (!hasData) return;
+                
+                for (const month in db) {
+                    const monthData = Array.isArray(db[month]) ? db[month] : Object.values(db[month]);
+                    monthData.forEach(entry => {
+                        const bus = entry.busNumber.toUpperCase();
+                        if (!bus) return;
+                        if (!busData[bus]) {
+                            busData[bus] = { revenue: 0, profit: 0, loss: 0 };
+                        }
+                        const profit = entry.revenue - entry.expense;
+                        busData[bus].revenue += entry.revenue;
+                        if (profit >= 0) {
+                            busData[bus].profit += profit;
+                        } else {
+                            busData[bus].loss += profit;
+                        }
+                    });
+                }
+                const labels = Object.keys(busData).sort();
+                const profitDataset = labels.map(bus => busData[bus].profit);
+                const lossDataset = labels.map(bus => busData[bus].loss);
+                const revenueDataset = labels.map(bus => busData[bus].revenue);
+                createBusProfitLossChart(labels, profitDataset, lossDataset);
+                createRevenuePieChart(labels, revenueDataset);
+
+            } catch (error) {
+                console.error("Could not create charts: ", error);
+                document.getElementById('charts-container').style.display = 'none';
+                document.getElementById('no-charts-message').style.display = 'block';
+            }
+        }
+
+        // ======================================================= //
+        // PAYROLL FUNCTIONS (MODIFIED FOR FIREBASE)               //
+        // ======================================================= //
+
+        async function showPayrollFile(month) {
+            document.getElementById('payroll-file-month').textContent = month;
+            try {
+                const snapshot = await database.ref(`payrollData/${month}`).once('value');
+                const payrollData = snapshot.val() || [];
+                const dataArray = Array.isArray(payrollData) ? payrollData : Object.values(payrollData);
+                buildPayrollTable(dataArray);
+                showPage('payroll-file');
+            } catch (error) {
+                console.error("Could not fetch payroll data: ", error);
+                alert("Error fetching data. Check console for details.");
+            }
+        }
+
+        async function savePayrollData() {
+            const month = document.getElementById('payroll-file-month').textContent;
+            if (!month) return alert('Error: No payroll month selected.');
+
+            const data = [];
+            document.querySelectorAll('#payroll-table-body tr').forEach(row => {
+                const name = row.querySelector('.name-cell').innerText.trim();
+                const vehicle = row.querySelector('.vehicle-cell').innerText.trim().toUpperCase();
+                const km = parseCurrency(row.querySelector('.km-cell').innerText);
+                const rate = parseCurrency(row.querySelector('.rate-cell').innerText);
+                const insurance = parseCurrency(row.querySelector('.insurance-cell').innerText);
+                const oilSaved = parseCurrency(row.querySelector('.oil-saved-cell').innerText);
+                const incomeTax = parseCurrency(row.querySelector('.incometax-cell').innerText);
+                const penalty = parseCurrency(row.querySelector('.penalty-cell').innerText);
+                const lessOther = parseCurrency(row.querySelector('.less-other-cell').innerText);
+
+                if (name || vehicle || km || rate || insurance || oilSaved || incomeTax || penalty || lessOther) {
+                    data.push({ name, vehicle, km, rate, insurance, oilSaved, incomeTax, penalty, lessOther });
+                }
+            });
+            
+            try {
+                await database.ref(`payrollData/${month}`).set(data);
+                alert(`Payroll data for ${month} saved successfully!`);
+            } catch (error) {
+                console.error("Error saving payroll data: ", error);
+                alert("Error saving data to Firebase. See console for details.");
+            }
+        }
+
+        // --- UNMODIFIED HELPER & UI FUNCTIONS ---
         function buildTableWithData(data) {
             const tableBody = document.getElementById('audit-table-body');
             tableBody.innerHTML = '';
@@ -426,25 +538,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600">₹${totalExpense.toLocaleString()}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}">₹${totalProfit.toLocaleString()}</td>
                     <td class="px-6 py-4"></td>
-                </tr>
-            `;
-        }
-        function saveTableData() {
-            const month = document.getElementById('audit-file-month').textContent;
-            if (!month) return alert('Error: No month selected.');
-            const monthData = [];
-            document.querySelectorAll('#audit-table-body tr').forEach(row => {
-                const busNumber = row.querySelector('.bus-number-cell').innerText.trim().toUpperCase();
-                const revenue = parseCurrency(row.querySelector('.revenue-cell').innerText);
-                const expense = parseCurrency(row.querySelector('.expense-cell').innerText);
-                if (busNumber || revenue || expense) { // Only save if there's any meaningful data
-                    monthData.push({ busNumber, revenue, expense });
-                }
-            });
-            const db = getDatabase();
-            db[month] = monthData;
-            saveDatabase(db);
-            alert(`Audit data for ${month} saved successfully!`);
+                </tr>`;
         }
         function exportToCSV() {
             const month = document.getElementById('audit-file-month').textContent;
@@ -455,7 +549,7 @@
                 const revenue = parseCurrency(cells[2].innerText);
                 const expense = parseCurrency(cells[3].innerText);
                 const profit = parseCurrency(cells[4].innerText);
-                if(busNumber || revenue || expense) { // Only export if there's any meaningful data
+                if(busNumber || revenue || expense) {
                     csvContent += `${index + 1},${busNumber},${revenue},${expense},${profit}\n`;
                 }
             });
@@ -466,37 +560,6 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        }
-
-        // --- Charting Functions ---
-        function createOrUpdateCharts() {
-            const db = getDatabase();
-            const busData = {};
-            const hasData = Object.keys(db).length > 0 && Object.values(db).some(month => month.length > 0);
-            document.getElementById('charts-container').style.display = hasData ? 'grid' : 'none';
-            document.getElementById('no-charts-message').style.display = hasData ? 'none' : 'block';
-            if (!hasData) return;
-            for (const month in db) {
-                db[month].forEach(entry => {
-                    const bus = entry.busNumber.toUpperCase();
-                    if (!busData[bus]) {
-                        busData[bus] = { revenue: 0, profit: 0, loss: 0 };
-                    }
-                    const profit = entry.revenue - entry.expense;
-                    busData[bus].revenue += entry.revenue;
-                    if (profit >= 0) {
-                        busData[bus].profit += profit;
-                    } else {
-                        busData[bus].loss += profit;
-                    }
-                });
-            }
-            const labels = Object.keys(busData).sort();
-            const profitDataset = labels.map(bus => busData[bus].profit);
-            const lossDataset = labels.map(bus => busData[bus].loss);
-            const revenueDataset = labels.map(bus => busData[bus].revenue);
-            createBusProfitLossChart(labels, profitDataset, lossDataset);
-            createRevenuePieChart(labels, revenueDataset);
         }
         function createBusProfitLossChart(labels, profitData, lossData) {
             const ctx = document.getElementById('busProfitLossChart').getContext('2d');
@@ -534,33 +597,10 @@
                 options: { responsive: true, plugins: { legend: { position: 'top' }}}
             });
         }
-
-        // ======================================================= //
-        // PAYROLL FUNCTIONS (Modified for monthly storage)        //
-        // ======================================================= //
-
-        function getPayrollDatabase(month) {
-            const dbKey = PAYROLL_DB_PREFIX + month;
-            const db = localStorage.getItem(dbKey);
-            return db ? JSON.parse(db) : [];
-        }
-
-        function savePayrollDatabase(month, data) {
-            const dbKey = PAYROLL_DB_PREFIX + month;
-            localStorage.setItem(dbKey, JSON.stringify(data));
-            console.log(`Payroll Database for ${month} saved.`);
-        }
-
-        function showPayrollFile(month) {
-            document.getElementById('payroll-file-month').textContent = month;
-            buildPayrollTable(getPayrollDatabase(month));
-            showPage('payroll-file');
-        }
-        
         function buildPayrollTable(data) {
             const tableBody = document.getElementById('payroll-table-body');
             tableBody.innerHTML = '';
-            let dataToRender = data.length > 0 ? data : [{}]; // Start with one empty row if no data
+            let dataToRender = data.length > 0 ? data : [{}];
             dataToRender.forEach((d, index) => {
                 const i = index + 1;
                 const row = document.createElement('tr');
@@ -586,7 +626,6 @@
             });
             updatePayrollRowAndTotals();
         }
-
         function addPayrollRow() {
             const tableBody = document.getElementById('payroll-table-body');
             const i = tableBody.rows.length + 1;
@@ -612,7 +651,6 @@
             tableBody.appendChild(row);
             row.querySelector('.name-cell').focus();
         }
-
         function deletePayrollRow(rowIndex) {
             if (confirm('Are you sure you want to delete this payroll row?')) {
                 document.getElementById(`payroll-row-${rowIndex}`).remove();
@@ -625,7 +663,6 @@
                 updatePayrollRowAndTotals();
             }
         }
-
         function updatePayrollRowAndTotals() {
             document.querySelectorAll('#payroll-table-body tr').forEach(row => {
                 const optedKm = parseCurrency(row.querySelector('.km-cell').innerText);
@@ -636,13 +673,11 @@
                 const penalty = parseCurrency(row.querySelector('.penalty-cell').innerText);
                 const lessOther = parseCurrency(row.querySelector('.less-other-cell').innerText);
 
-                // Calculations
                 const amountPayable = optedKm * slabRate;
                 const totalPayable = amountPayable + insurance + oilSaved;
                 const totalDeduction = incomeTax + penalty + lessOther;
                 const netPayable = totalPayable - totalDeduction;
 
-                // Update Cells
                 row.querySelector('.amount-payable-cell').innerText = '₹' + amountPayable.toLocaleString();
                 row.querySelector('.total-payable-cell').innerText = '₹' + totalPayable.toLocaleString();
                 row.querySelector('.total-deduction-cell').innerText = '₹' + totalDeduction.toLocaleString();
@@ -653,14 +688,12 @@
             });
             updatePayrollFooter();
         }
-
         function updatePayrollFooter() {
             const footer = document.getElementById('payroll-table-foot');
             const totalAmountPayable = sumColumn('#payroll-table-body .amount-payable-cell');
             const totalPayable = sumColumn('#payroll-table-body .total-payable-cell');
             const totalDeduction = sumColumn('#payroll-table-body .total-deduction-cell');
             const netPayable = sumColumn('#payroll-table-body .net-payable-cell');
-
             footer.innerHTML = `
                 <tr>
                     <td class="p-3 text-sm uppercase tracking-wider" colspan="4">Total</td>
@@ -671,44 +704,8 @@
                     <td class="p-3 whitespace-nowrap text-sm text-red-700">₹${totalDeduction.toLocaleString()}</td>
                     <td class="p-3 whitespace-nowrap text-sm font-extrabold ${netPayable >= 0 ? 'text-green-700' : 'text-red-700'}">₹${netPayable.toLocaleString()}</td>
                     <td class="p-3"></td>
-                </tr>
-            `;
+                </tr>`;
         }
-        
-        function savePayrollData() {
-            const month = document.getElementById('payroll-file-month').textContent;
-            if (!month) return alert('Error: No payroll month selected.');
-
-            const data = [];
-            document.querySelectorAll('#payroll-table-body tr').forEach(row => {
-                const name = row.querySelector('.name-cell').innerText.trim();
-                const vehicle = row.querySelector('.vehicle-cell').innerText.trim().toUpperCase();
-                const km = parseCurrency(row.querySelector('.km-cell').innerText);
-                const rate = parseCurrency(row.querySelector('.rate-cell').innerText);
-                const insurance = parseCurrency(row.querySelector('.insurance-cell').innerText);
-                const oilSaved = parseCurrency(row.querySelector('.oil-saved-cell').innerText);
-                const incomeTax = parseCurrency(row.querySelector('.incometax-cell').innerText);
-                const penalty = parseCurrency(row.querySelector('.penalty-cell').innerText);
-                const lessOther = parseCurrency(row.querySelector('.less-other-cell').innerText);
-
-                if (name || vehicle || km || rate || insurance || oilSaved || incomeTax || penalty || lessOther) {
-                    data.push({
-                        name: name,
-                        vehicle: vehicle,
-                        km: km,
-                        rate: rate,
-                        insurance: insurance,
-                        oilSaved: oilSaved,
-                        incomeTax: incomeTax,
-                        penalty: penalty,
-                        lessOther: lessOther
-                    });
-                }
-            });
-            savePayrollDatabase(month, data);
-            alert(`Payroll data for ${month} saved successfully!`);
-        }
-
         function exportPayrollToCSV() {
             const month = document.getElementById('payroll-file-month').textContent;
             const headers = [
@@ -717,38 +714,27 @@
                 "Total Deduction", "Net Payable"
             ];
             let csvContent = "data:text/csv;charset=utf-8," + headers.join(',') + "\n";
-            
             document.querySelectorAll('#payroll-table-body tr').forEach(row => {
                 const name = row.querySelector('.name-cell').innerText.trim().replace(/,/g, '');
-                const vehicle = row.querySelector('.vehicle-cell').innerText.trim().replace(/,/g, '');
-                const km = parseCurrency(row.querySelector('.km-cell').innerText);
-                const rate = parseCurrency(row.querySelector('.rate-cell').innerText);
-                const insurance = parseCurrency(row.querySelector('.insurance-cell').innerText);
-                const oilSaved = parseCurrency(row.querySelector('.oil-saved-cell').innerText);
-                const incomeTax = parseCurrency(row.querySelector('.incometax-cell').innerText);
-                const penalty = parseCurrency(row.querySelector('.penalty-cell').innerText);
-                const lessOther = parseCurrency(row.querySelector('.less-other-cell').innerText);
-
-                if (name || vehicle || km || rate || insurance || oilSaved || incomeTax || penalty || lessOther) {
+                if (name) {
                     const rowData = [
                         name,
-                        vehicle,
-                        km,
-                        rate,
+                        row.querySelector('.vehicle-cell').innerText.trim().replace(/,/g, ''),
+                        parseCurrency(row.querySelector('.km-cell').innerText),
+                        parseCurrency(row.querySelector('.rate-cell').innerText),
                         parseCurrency(row.querySelector('.amount-payable-cell').innerText),
-                        insurance,
-                        oilSaved,
+                        parseCurrency(row.querySelector('.insurance-cell').innerText),
+                        parseCurrency(row.querySelector('.oil-saved-cell').innerText),
                         parseCurrency(row.querySelector('.total-payable-cell').innerText),
-                        incomeTax,
-                        penalty,
-                        lessOther,
+                        parseCurrency(row.querySelector('.incometax-cell').innerText),
+                        parseCurrency(row.querySelector('.penalty-cell').innerText),
+                        parseCurrency(row.querySelector('.less-other-cell').innerText),
                         parseCurrency(row.querySelector('.total-deduction-cell').innerText),
                         parseCurrency(row.querySelector('.net-payable-cell').innerText)
                     ];
                     csvContent += rowData.join(',') + "\n";
                 }
             });
-
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
@@ -757,23 +743,17 @@
             link.click();
             document.body.removeChild(link);
         }
-
-        // --- Utility Functions ---
         const parseCurrency = (text) => parseFloat(text.replace(/[^0-9.-]+/g, "")) || 0;
         const sumColumn = (selector) => Array.from(document.querySelectorAll(selector)).reduce((acc, cell) => acc + parseCurrency(cell.innerText), 0);
-
         function formatCellAsCurrency(cell, useFractions = true) {
             let value = parseCurrency(cell.innerText);
             if (isNaN(value)) value = 0;
             const options = useFractions ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : {};
             cell.innerText = value.toLocaleString('en-IN', options);
         }
-
-        // --- Initial Load ---
         document.getElementById('mobile-menu-button').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
-
         window.onload = () => showPage('home');
     </script>
 
