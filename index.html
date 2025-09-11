@@ -37,8 +37,8 @@
              background-color: rgba(224, 231, 255, 0.7);
         }
         [contenteditable="true"]:focus {
-            background-color: rgba(224, 231, 255, 1);
-            box-shadow: 0 0 0 2px #4f46e5;
+            background-color: white;
+            box-shadow: 0 0 0 2px #6366f1;
         }
         [contenteditable=true]:empty:before {
             content: attr(data-placeholder);
@@ -62,11 +62,25 @@
             font-weight: 700;
             border-color: #4338ca;
         }
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
         tbody tr {
             transition: background-color 0.2s ease-in-out;
         }
         tbody tr:hover {
-            background-color: rgba(241, 245, 249, 0.9) !important;
+            background-color: rgba(241, 245, 249, 1) !important;
+        }
+        /* Diesel table cross-hair highlighting */
+        #diesel-table .highlight-row,
+        #diesel-table .highlight-col {
+            background-color: #e0e7ff !important;
+        }
+        #diesel-table .highlight-row .sticky,
+        #diesel-table .highlight-col .sticky {
+             background-color: #c7d2fe !important;
         }
         /* Loader styles */
         #loader {
@@ -132,7 +146,7 @@
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
 
-        <header class="flex justify-between items-center mb-8 bg-white/80 backdrop-blur-lg fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] max-w-7xl z-50 p-4 md:p-6 rounded-xl shadow-lg shadow-slate-900/5">
+        <header class="flex justify-between items-center mb-8 bg-white/60 backdrop-blur-lg fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] max-w-7xl z-50 p-4 md:p-6 rounded-xl shadow-lg shadow-slate-900/5 border border-white/50">
             <div class="flex items-center gap-2">
                 <h1 class="text-4xl font-extrabold yaswanth-title">Yaswanth</h1>
             </div>
@@ -160,7 +174,7 @@
                 <p class="text-slate-500 text-lg">Select an option to begin.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="group bg-slate-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('monthly-audit-selection')">
+                <div class="group dashboard-card p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('monthly-audit-selection')">
                     <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -172,7 +186,7 @@
                         Go to Data Entry &rarr;
                     </span>
                 </div>
-                 <div class="group bg-slate-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('diesel-selection')">
+                 <div class="group dashboard-card p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('diesel-selection')">
                     <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-600 mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
                           <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3zm3.146 5.146L8 10.001V15l1.001-1-1.147-1.146a1 1 0 010-1.414l-1.414-1.414a1 1 0 010-1.414L8.586 8l-2.44-2.44A.5.5 0 016.5 5H4v2.5a.5.5 0 01.146.354z" clip-rule="evenodd" />
@@ -184,7 +198,7 @@
                         Go to Diesel Log &rarr;
                     </span>
                 </div>
-                <div class="group bg-slate-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('bus-wise-audit')">
+                <div class="group dashboard-card p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('bus-wise-audit')">
                      <div class="flex items-center justify-center h-16 w-16 rounded-full bg-teal-100 text-teal-600 mb-6 group-hover:bg-teal-600 group-hover:text-white transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
@@ -197,7 +211,7 @@
                         Go to Reports &rarr;
                     </span>
                 </div>
-                <div class="group bg-slate-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('payroll-selection')">
+                <div class="group dashboard-card p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('payroll-selection')">
                      <div class="flex items-center justify-center h-16 w-16 rounded-full bg-amber-100 text-amber-600 mb-6 group-hover:bg-amber-600 group-hover:text-white transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -237,14 +251,22 @@
         </section>
 
         <section id="audit-file" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
-             <div class="flex items-center mb-1">
-                <button onclick="showPage('monthly-audit-selection')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                    Back
-                </button>
-                <h2 class="text-3xl font-bold text-slate-900">Audit File: <span id="audit-file-month"></span></h2>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                <div class="flex items-center">
+                    <button onclick="showPage('monthly-audit-selection')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                        Back
+                    </button>
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900">Audit File: <span id="audit-file-month"></span></h2>
+                        <p class="text-sm text-slate-500">Totals update as you type. Click Save to persist changes.</p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <input type="text" id="audit-search" onkeyup="filterAuditTable()" placeholder="Search by Bus Number..." class="pl-10 pr-4 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <svg class="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </div>
             </div>
-            <p class="text-sm text-slate-500 mb-6 ml-16">Click cells to edit. Totals are updated on blur. Click Save to persist changes.</p>
             
             <div class="flex justify-between items-center mb-4">
                 <button onclick="addRow()" class="flex items-center gap-2 bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-colors shadow-sm">
@@ -254,7 +276,7 @@
                 <div class="flex gap-4">
                      <button onclick="exportToCSV()" class="flex items-center gap-2 bg-slate-600 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a1 1 0 000-2H4a1 1 0 000 2zM8 16a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1zM4 16a1 1 0 011-1h2a1 1 0 110 2H5a1 1 0 01-1-1z" /><path fill-rule="evenodd" d="M5 8a3 3 0 016 0v8a3 3 0 11-6 0V8zm3-1a1 1 0 00-1 1v8a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
-                        Export to CSV
+                        Export
                     </button>
                     <button onclick="saveTableData()" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors shadow-md hover:shadow-lg font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
@@ -313,13 +335,13 @@
                 </button>
                 <h2 class="text-3xl font-bold text-slate-900">Diesel Log: <span id="diesel-file-month"></span></h2>
             </div>
-            <p class="text-sm text-slate-500 mb-6 ml-16">Enter diesel amount in each cell. Totals are updated automatically.</p>
+            <p class="text-sm text-slate-500 mb-6 ml-16">Hover for crosshair view. Totals update as you type.</p>
             
             <div class="flex justify-end items-center mb-4">
                 <div class="flex gap-4">
                      <button onclick="exportDieselToCSV()" class="flex items-center gap-2 bg-slate-600 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a1 1 0 000-2H4a1 1 0 000 2zM8 16a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1zM4 16a1 1 0 011-1h2a1 1 0 110 2H5a1 1 0 01-1-1z" /><path fill-rule="evenodd" d="M5 8a3 3 0 016 0v8a3 3 0 11-6 0V8zm3-1a1 1 0 00-1 1v8a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
-                        Export to CSV
+                        Export
                     </button>
                     <button onclick="saveDieselData()" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors shadow-md hover:shadow-lg font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
@@ -329,7 +351,7 @@
             </div>
 
             <div class="overflow-auto rounded-lg border max-h-[65vh]">
-                <table class="min-w-full text-sm">
+                <table id="diesel-table" class="min-w-full text-sm">
                     <thead class="bg-slate-100 sticky top-0 z-10" id="diesel-table-head"></thead>
                     <tbody class="bg-slate-50 divide-y divide-slate-200" id="diesel-table-body"></tbody>
                     <tfoot class="bg-slate-200 font-bold sticky bottom-0" id="diesel-table-foot"></tfoot>
@@ -405,7 +427,7 @@
                 </div>
             </div>
 
-            <div id="no-charts-message" class="hidden text-center py-16">
+            <div id="no-charts-message" class="hidden text-center py-16 flex-col items-center">
                  <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2z" />
                 </svg>
@@ -438,14 +460,22 @@
         </section>
 
         <section id="payroll-file" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
-             <div class="flex items-center mb-1">
-                <button onclick="showPage('payroll-selection')" class="flex items-center text-amber-600 hover:text-amber-800 font-medium transition-colors mr-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                    Back
-                </button>
-                <h2 class="text-3xl font-bold text-slate-900">Payroll Report: <span id="payroll-file-month"></span></h2>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                <div class="flex items-center">
+                    <button onclick="showPage('payroll-selection')" class="flex items-center text-amber-600 hover:text-amber-800 font-medium transition-colors mr-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                        Back
+                    </button>
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900">Payroll Report: <span id="payroll-file-month"></span></h2>
+                         <p class="text-sm text-slate-500">Calculated fields update automatically as you type.</p>
+                    </div>
+                </div>
+                 <div class="relative">
+                    <input type="text" id="payroll-search" onkeyup="filterPayrollTable()" placeholder="Search by Driver Name..." class="pl-10 pr-4 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                    <svg class="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </div>
             </div>
-            <p class="text-sm text-slate-500 mb-6 ml-16">Click editable cells to enter data. Calculated fields update automatically.</p>
             
             <div class="flex justify-between items-center mb-4">
                 <button onclick="addPayrollRow()" class="flex items-center gap-2 bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-colors shadow-sm">
@@ -455,7 +485,7 @@
                 <div class="flex gap-4">
                      <button onclick="exportPayrollToCSV()" class="flex items-center gap-2 bg-slate-600 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a1 1 0 000-2H4a1 1 0 000 2zM8 16a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1zM4 16a1 1 0 011-1h2a1 1 0 110 2H5a1 1 0 01-1-1z" /><path fill-rule="evenodd" d="M5 8a3 3 0 016 0v8a3 3 0 11-6 0V8zm3-1a1 1 0 00-1 1v8a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
-                        Export to CSV
+                        Export
                     </button>
                     <button onclick="savePayrollData()" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors shadow-md hover:shadow-lg font-semibold">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
@@ -464,7 +494,7 @@
                 </div>
             </div>
 
-            <div class="overflow-y-auto rounded-lg border max-h-[60vh]">
+            <div class="overflow-auto rounded-lg border max-h-[60vh]">
                 <table class="min-w-full text-sm">
                     <thead class="bg-slate-100 sticky top-0 z-10">
                         <tr>
@@ -496,7 +526,7 @@
     </div>
 
     <script>
-        // 1. Firebase Configuration
+        // --- Firebase Configuration & Initialization ---
         const firebaseConfig = {
             apiKey: "AIzaSyBQrSN31bs0dqpyZVT_IeGktPEy7rMrqcQ",
             authDomain: "yaswanth-fleet.firebaseapp.com",
@@ -507,9 +537,6 @@
             appId: "1:44710091269:web:6bffc1ab51aa52723e9a6c",
             measurementId: "G-LLY5VJN3N6"
         };
-        // End of Firebase Configuration
-
-        // 2. Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
@@ -532,9 +559,7 @@
             toast.className = `toast ${type}`;
             toast.textContent = message;
             container.appendChild(toast);
-            setTimeout(() => {
-                toast.remove();
-            }, 4000);
+            setTimeout(() => { toast.remove(); }, 4000);
         }
 
         function highlightCurrentMonth() {
@@ -549,14 +574,9 @@
         
         // --- Page Navigation ---
         const pageToNavMap = {
-            'home': 'nav-home',
-            'monthly-audit-selection': 'nav-home',
-            'audit-file': 'nav-home',
-            'diesel-selection': 'nav-home',
-            'diesel-file': 'nav-home',
-            'bus-wise-audit': 'nav-bus-wise-audit',
-            'payroll-selection': 'nav-payroll-selection',
-            'payroll-file': 'nav-payroll-selection',
+            'home': 'nav-home', 'monthly-audit-selection': 'nav-home', 'audit-file': 'nav-home',
+            'diesel-selection': 'nav-home', 'diesel-file': 'nav-home', 'bus-wise-audit': 'nav-bus-wise-audit',
+            'payroll-selection': 'nav-payroll-selection', 'payroll-file': 'nav-payroll-selection',
         };
 
         function showPage(pageId) {
@@ -564,7 +584,8 @@
             const activePage = document.getElementById(pageId);
             if (activePage) {
                 activePage.style.display = 'block';
-                document.title = `${pageId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} | Yaswanth Fleet`;
+                const title = pageId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                document.title = `${title} | Yaswanth Fleet`;
             } else {
                  document.title = 'Dashboard | Yaswanth Fleet';
             }
@@ -577,18 +598,13 @@
 
             document.getElementById('mobile-menu').classList.add('hidden');
 
-            if (pageId === 'bus-wise-audit') {
-                createOrUpdateCharts();
-            }
-            if (pageId.endsWith('-selection')) {
-                highlightCurrentMonth();
-            }
+            if (pageId === 'bus-wise-audit') createOrUpdateCharts();
+            if (pageId.endsWith('-selection')) highlightCurrentMonth();
         }
 
         // ======================================================= //
-        // AUDIT FUNCTIONS (MODIFIED FOR FIREBASE)                 //
+        // AUDIT FUNCTIONS                                         //
         // ======================================================= //
-
         async function showAuditFile(month) {
             showLoader();
             document.getElementById('audit-file-month').textContent = month;
@@ -609,10 +625,7 @@
         async function saveTableData() {
             showLoader();
             const month = document.getElementById('audit-file-month').textContent;
-            if (!month) {
-                hideLoader();
-                return showToast('Error: No month selected.', 'error');
-            }
+            if (!month) { hideLoader(); return showToast('Error: No month selected.', 'error'); }
             const monthData = [];
             document.querySelectorAll('#audit-table-body tr.data-row').forEach(row => {
                 const busNumber = row.querySelector('.bus-number-cell').innerText.trim().toUpperCase();
@@ -657,32 +670,29 @@
             const year = new Date().getFullYear();
             const monthIndex = MONTH_NAMES.indexOf(month);
             const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+            const table = document.getElementById('diesel-table');
 
-            const tableHead = document.getElementById('diesel-table-head');
-            const tableBody = document.getElementById('diesel-table-body');
-            const tableFoot = document.getElementById('diesel-table-foot');
-
-            tableHead.innerHTML = '';
-            tableBody.innerHTML = '';
-            tableFoot.innerHTML = '';
+            table.querySelector('thead').innerHTML = '';
+            table.querySelector('tbody').innerHTML = '';
+            table.querySelector('tfoot').innerHTML = '';
 
             let headerRowHTML = '<tr><th class="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider sticky left-0 bg-slate-100 z-20">Bus No.</th>';
             for (let i = 1; i <= daysInMonth; i++) {
                 headerRowHTML += `<th class="p-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">${i}</th>`;
             }
             headerRowHTML += '<th class="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider sticky right-0 bg-slate-100 z-20">Bus Total</th></tr>';
-            tableHead.innerHTML = headerRowHTML;
+            table.querySelector('thead').innerHTML = headerRowHTML;
 
             DIESEL_BUS_NUMBERS.forEach(bus => {
                 let bodyRowHTML = `<tr data-bus="${bus}">`;
                 bodyRowHTML += `<td class="p-2 whitespace-nowrap font-semibold text-slate-700 sticky left-0 bg-slate-50 z-10">${bus}</td>`;
                 for (let i = 1; i <= daysInMonth; i++) {
                     const value = data[bus] && data[bus][i] ? data[bus][i] : '';
-                    bodyRowHTML += `<td class="p-1 whitespace-nowrap text-center text-slate-800 diesel-input-cell" contenteditable="true" data-day="${i}" onblur="updateDieselTotals()">${value}</td>`;
+                    bodyRowHTML += `<td class="p-1 whitespace-nowrap text-center text-slate-800 diesel-input-cell" contenteditable="true" data-day="${i}" oninput="handleNumericInput(this, updateDieselTotals)" onblur="formatCellAsCurrency(this, false)">${value}</td>`;
                 }
                 bodyRowHTML += `<td class="p-2 whitespace-nowrap font-bold text-indigo-700 sticky right-0 bg-slate-100 z-10 bus-total-cell">0</td>`;
                 bodyRowHTML += '</tr>';
-                tableBody.innerHTML += bodyRowHTML;
+                table.querySelector('tbody').innerHTML += bodyRowHTML;
             });
 
             let footerRowHTML = '<tr><td class="p-3 font-semibold text-slate-800 sticky left-0 bg-slate-200 z-10">Daily Total</td>';
@@ -690,9 +700,39 @@
                 footerRowHTML += `<td class="p-3 whitespace-nowrap font-bold text-center day-total-cell" data-day-total="${i}">0</td>`;
             }
             footerRowHTML += `<td class="p-3 whitespace-nowrap font-extrabold text-lg text-indigo-800 sticky right-0 bg-slate-300 z-10 grand-total-cell">0</td></tr>`;
-            tableFoot.innerHTML = footerRowHTML;
+            table.querySelector('tfoot').innerHTML = footerRowHTML;
 
             updateDieselTotals();
+            setupDieselTableHover();
+        }
+
+        function setupDieselTableHover() {
+            const table = document.getElementById('diesel-table');
+            const allCells = table.querySelectorAll('th, td');
+            
+            const clearHighlights = () => {
+                allCells.forEach(c => {
+                    c.classList.remove('highlight-row', 'highlight-col');
+                });
+            };
+
+            allCells.forEach(cell => {
+                cell.addEventListener('mouseover', () => {
+                    clearHighlights();
+                    const rowIndex = cell.parentElement.rowIndex;
+                    const colIndex = cell.cellIndex;
+                    
+                    const rowCells = table.rows[rowIndex].cells;
+                    for (let i = 0; i < rowCells.length; i++) {
+                        rowCells[i].classList.add('highlight-row');
+                    }
+                    
+                    for (let i = 0; i < table.rows.length; i++) {
+                        table.rows[i].cells[colIndex].classList.add('highlight-col');
+                    }
+                });
+            });
+            table.addEventListener('mouseleave', clearHighlights);
         }
         
         function updateDieselTotals() {
@@ -704,7 +744,7 @@
                 row.querySelectorAll('.diesel-input-cell').forEach(cell => {
                     rowTotal += parseCurrency(cell.innerText);
                 });
-                row.querySelector('.bus-total-cell').innerText = rowTotal > 0 ? rowTotal.toLocaleString() : '0';
+                row.querySelector('.bus-total-cell').innerText = rowTotal > 0 ? rowTotal.toLocaleString('en-IN') : '0';
                 grandTotal += rowTotal;
             });
 
@@ -713,19 +753,16 @@
                 document.querySelectorAll(`#diesel-table-body .diesel-input-cell[data-day="${i}"]`).forEach(cell => {
                     colTotal += parseCurrency(cell.innerText);
                 });
-                document.querySelector(`#diesel-table-foot .day-total-cell[data-day-total="${i}"]`).innerText = colTotal > 0 ? colTotal.toLocaleString() : '0';
+                document.querySelector(`#diesel-table-foot .day-total-cell[data-day-total="${i}"]`).innerText = colTotal > 0 ? colTotal.toLocaleString('en-IN') : '0';
             }
 
-            document.querySelector('.grand-total-cell').innerText = grandTotal > 0 ? grandTotal.toLocaleString() : '0';
+            document.querySelector('.grand-total-cell').innerText = grandTotal > 0 ? grandTotal.toLocaleString('en-IN') : '0';
         }
 
         async function saveDieselData() {
             showLoader();
             const month = document.getElementById('diesel-file-month').textContent;
-            if (!month) {
-                hideLoader();
-                return showToast('Error: No month selected.', 'error');
-            }
+            if (!month) { hideLoader(); return showToast('Error: No month selected.', 'error'); }
 
             const monthData = {};
             document.querySelectorAll('#diesel-table-body tr').forEach(row => {
@@ -754,34 +791,9 @@
             }
         }
         
-        function exportDieselToCSV() {
-            const month = document.getElementById('diesel-file-month').textContent;
-            let csvContent = "data:text/csv;charset=utf-8,";
-            
-            const headers = Array.from(document.querySelectorAll('#diesel-table-head th')).map(th => th.innerText);
-            csvContent += headers.join(',') + '\n';
-
-            document.querySelectorAll('#diesel-table-body tr').forEach(row => {
-                const rowData = Array.from(row.querySelectorAll('td')).map(td => `"${td.innerText}"`);
-                csvContent += rowData.join(',') + '\n';
-            });
-            
-            const footers = Array.from(document.querySelectorAll('#diesel-table-foot td')).map(td => `"${td.innerText}"`);
-            csvContent += footers.join(',') + '\n';
-            
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `diesel_audit_${month.toLowerCase()}_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
         // ======================================================= //
         // REPORTING & CHART FUNCTIONS                             //
         // ======================================================= //
-
         async function createOrUpdateCharts() {
             showLoader();
             try {
@@ -798,7 +810,6 @@
                 if (!hasData) return;
                 
                 const busData = {};
-                
                 MONTH_NAMES.forEach(month => {
                     if (db[month]) {
                         const monthData = Array.isArray(db[month]) ? db[month] : Object.values(db[month]);
@@ -806,9 +817,7 @@
                             if (!entry || !entry.busNumber) return;
                             const bus = entry.busNumber.toUpperCase();
                             if (!bus) return;
-                            if (!busData[bus]) {
-                                busData[bus] = { monthlyData: {} };
-                            }
+                            if (!busData[bus]) { busData[bus] = { monthlyData: {} }; }
                             busData[bus].monthlyData[month] = {
                                 revenue: entry.revenue || 0,
                                 expense: entry.expense || 0,
@@ -831,15 +840,9 @@
                     });
                 });
                 const labels = Object.keys(aggregatedTotals).sort();
-                const profitDataset = labels.map(bus => aggregatedTotals[bus].profit);
-                const lossDataset = labels.map(bus => aggregatedTotals[bus].loss);
-                const revenueDataset = labels.map(bus => aggregatedTotals[bus].revenue);
-                
-                createBusProfitLossChart(labels, profitDataset, lossDataset);
-                createRevenuePieChart(labels, revenueDataset);
+                createBusProfitLossChart(labels, labels.map(bus => aggregatedTotals[bus].profit), labels.map(bus => aggregatedTotals[bus].loss));
+                createRevenuePieChart(labels, labels.map(bus => aggregatedTotals[bus].revenue));
                 populateBusSelector(Object.keys(busData).sort(), busData);
-
-
             } catch (error) {
                 console.error("Could not create charts: ", error);
                 showToast("Error generating reports.", "error");
@@ -850,69 +853,9 @@
             }
         }
 
-        function populateBusSelector(busList, allData) {
-            const selector = document.getElementById('bus-selector');
-            selector.innerHTML = '<option value="">-- Select a Bus --</option>'; // Reset
-            busList.forEach(bus => {
-                const option = document.createElement('option');
-                option.value = bus;
-                option.textContent = bus;
-                selector.appendChild(option);
-            });
-            selector.onchange = () => displayBusDetails(selector.value, allData);
-        }
-
-        function displayBusDetails(busNumber, allData) {
-            const container = document.getElementById('bus-details-container');
-            if (!busNumber) {
-                container.classList.add('hidden');
-                return;
-            }
-            container.classList.remove('hidden');
-
-            const data = allData[busNumber].monthlyData;
-            let totalRevenue = 0, totalExpense = 0;
-            let bestProfit = -Infinity, bestMonth = 'N/A';
-            let worstProfit = Infinity, worstMonth = 'N/A';
-
-            Object.entries(data).forEach(([month, values]) => {
-                totalRevenue += values.revenue;
-                totalExpense += values.expense;
-                if (values.profit > bestProfit) {
-                    bestProfit = values.profit;
-                    bestMonth = month;
-                }
-                if (values.profit < worstProfit) {
-                    worstProfit = values.profit;
-                    worstMonth = month;
-                }
-            });
-            const netProfit = totalRevenue - totalExpense;
-
-            document.getElementById('details-bus-number').textContent = busNumber;
-            document.getElementById('details-total-revenue').textContent = '₹' + totalRevenue.toLocaleString();
-            document.getElementById('details-total-expense').textContent = '₹' + totalExpense.toLocaleString();
-            const netProfitEl = document.getElementById('details-net-profit');
-            netProfitEl.textContent = '₹' + netProfit.toLocaleString();
-            netProfitEl.className = `font-bold text-lg ${netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`;
-
-            document.getElementById('details-best-month').textContent = bestMonth;
-            document.getElementById('details-best-profit').textContent = `(₹${bestProfit.toLocaleString()})`;
-            document.getElementById('details-worst-month').textContent = worstMonth;
-            document.getElementById('details-worst-profit').textContent = `(₹${worstProfit.toLocaleString()})`;
-
-            const chartLabels = MONTH_NAMES.filter(month => data[month] !== undefined);
-            const revenueValues = chartLabels.map(month => data[month].revenue);
-            const expenseValues = chartLabels.map(month => data[month].expense);
-            const profitValues = chartLabels.map(month => data[month].profit);
-
-            createMonthlyBusChart(chartLabels, revenueValues, expenseValues, profitValues);
-        }
-
         // ======================================================= //
         // PAYROLL FUNCTIONS                                       //
         // ======================================================= //
-
         async function showPayrollFile(month) {
             showLoader();
             document.getElementById('payroll-file-month').textContent = month;
@@ -933,25 +876,23 @@
         async function savePayrollData() {
             showLoader();
             const month = document.getElementById('payroll-file-month').textContent;
-            if (!month) {
-                hideLoader();
-                return showToast('Error: No payroll month selected.', 'error');
-            }
+            if (!month) { hideLoader(); return showToast('Error: No payroll month selected.', 'error'); }
 
             const data = [];
             document.querySelectorAll('#payroll-table-body tr.data-row').forEach(row => {
                 const name = row.querySelector('.name-cell').innerText.trim();
-                const vehicle = row.querySelector('.vehicle-cell').innerText.trim().toUpperCase();
-                const km = parseCurrency(row.querySelector('.km-cell').innerText);
-                const rate = parseCurrency(row.querySelector('.rate-cell').innerText);
-                const insurance = parseCurrency(row.querySelector('.insurance-cell').innerText);
-                const oilSaved = parseCurrency(row.querySelector('.oil-saved-cell').innerText);
-                const incomeTax = parseCurrency(row.querySelector('.incometax-cell').innerText);
-                const penalty = parseCurrency(row.querySelector('.penalty-cell').innerText);
-                const lessOther = parseCurrency(row.querySelector('.less-other-cell').innerText);
-
-                if (name || vehicle || km || rate || insurance || oilSaved || incomeTax || penalty || lessOther) {
-                    data.push({ name, vehicle, km, rate, insurance, oilSaved, incomeTax, penalty, lessOther });
+                if (name) {
+                    data.push({
+                        name,
+                        vehicle: row.querySelector('.vehicle-cell').innerText.trim().toUpperCase(),
+                        km: parseCurrency(row.querySelector('.km-cell').innerText),
+                        rate: parseCurrency(row.querySelector('.rate-cell').innerText),
+                        insurance: parseCurrency(row.querySelector('.insurance-cell').innerText),
+                        oilSaved: parseCurrency(row.querySelector('.oil-saved-cell').innerText),
+                        incomeTax: parseCurrency(row.querySelector('.incometax-cell').innerText),
+                        penalty: parseCurrency(row.querySelector('.penalty-cell').innerText),
+                        lessOther: parseCurrency(row.querySelector('.less-other-cell').innerText)
+                    });
                 }
             });
             
@@ -966,7 +907,9 @@
             }
         }
 
-        // --- HELPER & UI BUILDER FUNCTIONS ---
+        // ======================================================= //
+        // --- HELPER & UI BUILDER FUNCTIONS ---                   //
+        // ======================================================= //
         function buildTableWithData(data) {
             const tableBody = document.getElementById('audit-table-body');
             tableBody.innerHTML = '';
@@ -982,9 +925,9 @@
                 row.id = `row-${i}`;
                 row.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${i}</td>
-                    <td class="px-4 py-2 whitespace-nowrap text-sm text-slate-900 bus-number-cell" contenteditable="true" data-placeholder="Enter bus no." onblur="updateRowAndTotals()">${rowData.busNumber || ''}</td>
-                    <td class="px-4 py-2 whitespace-nowrap text-sm text-green-600 revenue-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updateRowAndTotals();">${rowData.revenue ? rowData.revenue.toLocaleString('en-IN') : ''}</td>
-                    <td class="px-4 py-2 whitespace-nowrap text-sm text-red-600 expense-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updateRowAndTotals();">${rowData.expense ? rowData.expense.toLocaleString('en-IN') : ''}</td>
+                    <td class="px-4 py-2 whitespace-nowrap text-sm text-slate-900 bus-number-cell" contenteditable="true" data-placeholder="Enter bus no." oninput="updateRowAndTotals()">${rowData.busNumber || ''}</td>
+                    <td class="px-4 py-2 whitespace-nowrap text-sm text-green-600 revenue-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updateRowAndTotals)" onblur="formatCellAsCurrency(this);">${rowData.revenue ? rowData.revenue.toLocaleString('en-IN') : ''}</td>
+                    <td class="px-4 py-2 whitespace-nowrap text-sm text-red-600 expense-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updateRowAndTotals)" onblur="formatCellAsCurrency(this);">${rowData.expense ? rowData.expense.toLocaleString('en-IN') : ''}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium profit-cell"></td>
                     <td class="px-6 py-4 text-center"><button onclick="deleteRow(${i})" class="text-red-400 hover:text-red-600 font-bold text-xl transition-colors">&times;</button></td>
                 `;
@@ -995,7 +938,7 @@
         function addRow() {
             const tableBody = document.getElementById('audit-table-body');
              if (tableBody.querySelector('td[colspan="6"]')) {
-                tableBody.innerHTML = ''; // Clear the 'no records' message
+                tableBody.innerHTML = '';
             }
             const newIndex = tableBody.rows.length + 1;
             const newRow = document.createElement('tr');
@@ -1003,9 +946,9 @@
             newRow.id = `row-${newIndex}`;
             newRow.innerHTML = `
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${newIndex}</td>
-                <td class="px-4 py-2 whitespace-nowrap text-sm text-slate-900 bus-number-cell" contenteditable="true" data-placeholder="Enter bus no." onblur="updateRowAndTotals()"></td>
-                <td class="px-4 py-2 whitespace-nowrap text-sm text-green-600 revenue-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updateRowAndTotals();"></td>
-                <td class="px-4 py-2 whitespace-nowrap text-sm text-red-600 expense-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updateRowAndTotals();"></td>
+                <td class="px-4 py-2 whitespace-nowrap text-sm text-slate-900 bus-number-cell" contenteditable="true" data-placeholder="Enter bus no." oninput="updateRowAndTotals()"></td>
+                <td class="px-4 py-2 whitespace-nowrap text-sm text-green-600 revenue-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updateRowAndTotals)" onblur="formatCellAsCurrency(this);"></td>
+                <td class="px-4 py-2 whitespace-nowrap text-sm text-red-600 expense-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updateRowAndTotals)" onblur="formatCellAsCurrency(this);"></td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium profit-cell"></td>
                 <td class="px-6 py-4 text-center"><button onclick="deleteRow(${newIndex})" class="text-red-400 hover:text-red-600 font-bold text-xl transition-colors">&times;</button></td>
             `;
@@ -1022,16 +965,15 @@
                 row.cells[5].querySelector('button').setAttribute('onclick', `deleteRow(${i})`);
             });
             updateRowAndTotals();
-             if (tableBody.rows.length === 0) {
-                 buildTableWithData([]);
-            }
+             if (tableBody.rows.length === 0) buildTableWithData([]);
         }
         function updateRowAndTotals() {
             document.querySelectorAll('#audit-table-body tr.data-row').forEach(row => {
+                const profitCell = row.querySelector('.profit-cell');
+                if (!profitCell) return;
                 const revenue = parseCurrency(row.querySelector('.revenue-cell').innerText);
                 const expense = parseCurrency(row.querySelector('.expense-cell').innerText);
                 const profit = revenue - expense;
-                const profitCell = row.querySelector('.profit-cell');
                 profitCell.innerText = '₹' + profit.toLocaleString('en-IN');
                 profitCell.classList.toggle('text-green-600', profit >= 0);
                 profitCell.classList.toggle('text-red-600', profit < 0);
@@ -1052,85 +994,39 @@
                     <td class="px-6 py-4"></td>
                 </tr>`;
         }
-        function exportToCSV() {
-            const month = document.getElementById('audit-file-month').textContent;
-            let csvContent = "data:text/csv;charset=utf-8,S.No,Bus Number,Credited Money,Expenses,Money Left\n";
-            document.querySelectorAll('#audit-table-body tr.data-row').forEach((row, index) => {
-                const cells = row.querySelectorAll('td');
-                const busNumber = cells[1].innerText.trim().replace(/,/g, '');
-                const revenue = parseCurrency(cells[2].innerText);
-                const expense = parseCurrency(cells[3].innerText);
-                const profit = parseCurrency(cells[4].innerText);
-                if(busNumber || revenue || expense) {
-                    csvContent += `${index + 1},${busNumber},${revenue},${expense},${profit}\n`;
-                }
-            });
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `audit_${month.toLowerCase()}_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
         function createBusProfitLossChart(labels, profitData, lossData) {
             const ctx = document.getElementById('busProfitLossChart').getContext('2d');
             if (profitLossChartInstance) profitLossChartInstance.destroy();
             profitLossChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels,
-                    datasets: [{
-                        label: 'Profit', data: profitData,
-                        backgroundColor: 'rgba(34, 197, 94, 0.7)', 
-                        borderColor: 'rgba(22, 163, 74, 1)', borderWidth: 1, borderRadius: 4,
-                    }, {
-                        label: 'Loss', data: lossData,
-                        backgroundColor: 'rgba(239, 68, 68, 0.7)',
-                        borderColor: 'rgba(220, 38, 38, 1)', borderWidth: 1, borderRadius: 4,
-                    }]
-                },
-                options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { callback: value => '₹' + value.toLocaleString('en-IN') }}}}
+                type: 'bar', data: { labels, datasets: [
+                    { label: 'Profit', data: profitData, backgroundColor: 'rgba(34, 197, 94, 0.7)', borderColor: 'rgba(22, 163, 74, 1)', borderWidth: 1, borderRadius: 4 },
+                    { label: 'Loss', data: lossData, backgroundColor: 'rgba(239, 68, 68, 0.7)', borderColor: 'rgba(220, 38, 38, 1)', borderWidth: 1, borderRadius: 4 }
+                ]},
+                options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: value => '₹' + value.toLocaleString('en-IN') }}}, plugins: { tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ₹${c.raw.toLocaleString('en-IN')}` }}}}
             });
         }
         function createRevenuePieChart(labels, revenueData) {
             const ctx = document.getElementById('revenuePieChart').getContext('2d');
             if (revenuePieChartInstance) revenuePieChartInstance.destroy();
             revenuePieChartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels,
-                    datasets: [{
-                        label: 'Total Revenue', data: revenueData,
-                        backgroundColor: ['#4f46e5', '#10b981', '#f59e0b', '#3b82f6', '#6366f1', '#ec4899', '#8b5cf6'],
-                        hoverOffset: 8, borderColor: '#f1f5f9',
-                    }]
-                },
-                options: { responsive: true, plugins: { legend: { position: 'top' }}}
+                type: 'doughnut', data: { labels, datasets: [{
+                    label: 'Total Revenue', data: revenueData,
+                    backgroundColor: ['#4f46e5', '#10b981', '#f59e0b', '#3b82f6', '#6366f1', '#ec4899', '#8b5cf6'],
+                    hoverOffset: 8, borderColor: '#f1f5f9'
+                }]},
+                options: { responsive: true, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: (c) => `${c.label}: ₹${c.raw.toLocaleString('en-IN')}` }}}}
             });
         }
         function createMonthlyBusChart(labels, revenueData, expenseData, profitData) {
             const ctx = document.getElementById('monthlyBusChart').getContext('2d');
             if (monthlyBusChartInstance) monthlyBusChartInstance.destroy();
             monthlyBusChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels,
-                    datasets: [{
-                        label: 'Revenue', data: revenueData,
-                        borderColor: 'rgba(34, 197, 94, 1)', backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                        fill: true, tension: 0.3
-                    }, {
-                        label: 'Expenses', data: expenseData,
-                        borderColor: 'rgba(239, 68, 68, 1)', backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        fill: true, tension: 0.3
-                    }, {
-                        label: 'Profit', data: profitData,
-                        borderColor: 'rgba(79, 70, 229, 1)', backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                        fill: true, tension: 0.3
-                    }]
-                },
-                options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { callback: value => '₹' + value.toLocaleString('en-IN') }}}}
+                type: 'line', data: { labels, datasets: [
+                    { label: 'Revenue', data: revenueData, borderColor: 'rgba(34, 197, 94, 1)', backgroundColor: 'rgba(34, 197, 94, 0.1)', fill: true, tension: 0.3 },
+                    { label: 'Expenses', data: expenseData, borderColor: 'rgba(239, 68, 68, 1)', backgroundColor: 'rgba(239, 68, 68, 0.1)', fill: true, tension: 0.3 },
+                    { label: 'Profit', data: profitData, borderColor: 'rgba(79, 70, 229, 1)', backgroundColor: 'rgba(79, 70, 229, 0.1)', fill: true, tension: 0.3 }
+                ]},
+                options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: value => '₹' + value.toLocaleString('en-IN') }}}, plugins: { tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ₹${c.raw.toLocaleString('en-IN')}` }}}}
             });
         }
         function buildPayrollTable(data) {
@@ -1149,15 +1045,15 @@
                 row.innerHTML = `
                     <td class="p-2 whitespace-nowrap text-slate-900 name-cell" contenteditable="true" data-placeholder="Driver Name">${d.name || ''}</td>
                     <td class="p-2 whitespace-nowrap text-slate-900 vehicle-cell" contenteditable="true" data-placeholder="Vehicle No">${d.vehicle || ''}</td>
-                    <td class="p-2 whitespace-nowrap text-slate-700 km-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this, false); updatePayrollRowAndTotals();">${d.km ? d.km.toLocaleString('en-IN') : ''}</td>
-                    <td class="p-2 whitespace-nowrap text-slate-700 rate-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();">${d.rate ? d.rate.toLocaleString('en-IN') : ''}</td>
+                    <td class="p-2 whitespace-nowrap text-slate-700 km-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this, false);">${d.km ? d.km.toLocaleString('en-IN') : ''}</td>
+                    <td class="p-2 whitespace-nowrap text-slate-700 rate-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);">${d.rate ? d.rate.toLocaleString('en-IN') : ''}</td>
                     <td class="p-2 whitespace-nowrap font-medium bg-slate-200/60 amount-payable-cell"></td>
-                    <td class="p-2 whitespace-nowrap text-blue-600 insurance-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();">${d.insurance ? d.insurance.toLocaleString('en-IN') : ''}</td>
-                    <td class="p-2 whitespace-nowrap text-blue-600 oil-saved-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();">${d.oilSaved ? d.oilSaved.toLocaleString('en-IN') : ''}</td>
+                    <td class="p-2 whitespace-nowrap text-blue-600 insurance-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);">${d.insurance ? d.insurance.toLocaleString('en-IN') : ''}</td>
+                    <td class="p-2 whitespace-nowrap text-blue-600 oil-saved-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);">${d.oilSaved ? d.oilSaved.toLocaleString('en-IN') : ''}</td>
                     <td class="p-2 whitespace-nowrap font-medium text-blue-700 bg-slate-200/60 total-payable-cell"></td>
-                    <td class="p-2 whitespace-nowrap text-red-600 incometax-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();">${d.incomeTax ? d.incomeTax.toLocaleString('en-IN') : ''}</td>
-                    <td class="p-2 whitespace-nowrap text-red-600 penalty-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();">${d.penalty ? d.penalty.toLocaleString('en-IN') : ''}</td>
-                    <td class="p-2 whitespace-nowrap text-red-600 less-other-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();">${d.lessOther ? d.lessOther.toLocaleString('en-IN') : ''}</td>
+                    <td class="p-2 whitespace-nowrap text-red-600 incometax-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);">${d.incomeTax ? d.incomeTax.toLocaleString('en-IN') : ''}</td>
+                    <td class="p-2 whitespace-nowrap text-red-600 penalty-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);">${d.penalty ? d.penalty.toLocaleString('en-IN') : ''}</td>
+                    <td class="p-2 whitespace-nowrap text-red-600 less-other-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);">${d.lessOther ? d.lessOther.toLocaleString('en-IN') : ''}</td>
                     <td class="p-2 whitespace-nowrap font-medium text-red-700 bg-slate-200/60 total-deduction-cell"></td>
                     <td class="p-2 whitespace-nowrap font-bold text-lg bg-indigo-100 net-payable-cell"></td>
                     <td class="p-2 text-center"><button onclick="deletePayrollRow(${i})" class="text-red-400 hover:text-red-600 font-bold text-xl transition-colors">&times;</button></td>
@@ -1176,15 +1072,15 @@
             row.innerHTML = `
                 <td class="p-2 whitespace-nowrap text-slate-900 name-cell" contenteditable="true" data-placeholder="Driver Name"></td>
                 <td class="p-2 whitespace-nowrap text-slate-900 vehicle-cell" contenteditable="true" data-placeholder="Vehicle No"></td>
-                <td class="p-2 whitespace-nowrap text-slate-700 km-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this, false); updatePayrollRowAndTotals();"></td>
-                <td class="p-2 whitespace-nowrap text-slate-700 rate-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();"></td>
+                <td class="p-2 whitespace-nowrap text-slate-700 km-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this, false);"></td>
+                <td class="p-2 whitespace-nowrap text-slate-700 rate-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);"></td>
                 <td class="p-2 whitespace-nowrap font-medium bg-slate-200/60 amount-payable-cell"></td>
-                <td class="p-2 whitespace-nowrap text-blue-600 insurance-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();"></td>
-                <td class="p-2 whitespace-nowrap text-blue-600 oil-saved-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();"></td>
+                <td class="p-2 whitespace-nowrap text-blue-600 insurance-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);"></td>
+                <td class="p-2 whitespace-nowrap text-blue-600 oil-saved-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);"></td>
                 <td class="p-2 whitespace-nowrap font-medium text-blue-700 bg-slate-200/60 total-payable-cell"></td>
-                <td class="p-2 whitespace-nowrap text-red-600 incometax-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();"></td>
-                <td class="p-2 whitespace-nowrap text-red-600 penalty-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();"></td>
-                <td class="p-2 whitespace-nowrap text-red-600 less-other-cell" contenteditable="true" data-placeholder="0" onblur="formatCellAsCurrency(this); updatePayrollRowAndTotals();"></td>
+                <td class="p-2 whitespace-nowrap text-red-600 incometax-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);"></td>
+                <td class="p-2 whitespace-nowrap text-red-600 penalty-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);"></td>
+                <td class="p-2 whitespace-nowrap text-red-600 less-other-cell" contenteditable="true" data-placeholder="0" oninput="handleNumericInput(this, updatePayrollRowAndTotals)" onblur="formatCellAsCurrency(this);"></td>
                 <td class="p-2 whitespace-nowrap font-medium text-red-700 bg-slate-200/60 total-deduction-cell"></td>
                 <td class="p-2 whitespace-nowrap font-bold text-lg bg-indigo-100 net-payable-cell"></td>
                 <td class="p-2 text-center"><button onclick="deletePayrollRow(${i})" class="text-red-400 hover:text-red-600 font-bold text-xl transition-colors">&times;</button></td>
@@ -1246,51 +1142,58 @@
                     <td class="p-3"></td>
                 </tr>`;
         }
-        function exportPayrollToCSV() {
-            const month = document.getElementById('payroll-file-month').textContent;
-            const headers = ["Name", "Vehicle Number", "Opted KM", "Slab Rate", "Amount Payable", "Insurance", "Oil Saved", "Total Payable", "Income Tax", "Penalty", "Less Other(Oil)", "Total Deduction", "Net Payable"];
-            let csvContent = "data:text/csv;charset=utf-8," + headers.join(',') + "\n";
-            document.querySelectorAll('#payroll-table-body tr.data-row').forEach(row => {
-                const name = row.querySelector('.name-cell').innerText.trim().replace(/,/g, '');
-                if (name) {
-                    const rowData = [
-                        name,
-                        row.querySelector('.vehicle-cell').innerText.trim().replace(/,/g, ''),
-                        parseCurrency(row.querySelector('.km-cell').innerText),
-                        parseCurrency(row.querySelector('.rate-cell').innerText),
-                        parseCurrency(row.querySelector('.amount-payable-cell').innerText),
-                        parseCurrency(row.querySelector('.insurance-cell').innerText),
-                        parseCurrency(row.querySelector('.oil-saved-cell').innerText),
-                        parseCurrency(row.querySelector('.total-payable-cell').innerText),
-                        parseCurrency(row.querySelector('.incometax-cell').innerText),
-                        parseCurrency(row.querySelector('.penalty-cell').innerText),
-                        parseCurrency(row.querySelector('.less-other-cell').innerText),
-                        parseCurrency(row.querySelector('.total-deduction-cell').innerText),
-                        parseCurrency(row.querySelector('.net-payable-cell').innerText)
-                    ];
-                    csvContent += rowData.join(',') + "\n";
-                }
-            });
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `payroll_report_${month.toLowerCase()}_${new Date().toISOString().split('T')[0]}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+        
+        // --- UTILITY FUNCTIONS ---
         const parseCurrency = (text) => parseFloat(String(text).replace(/[^0-9.-]+/g, "")) || 0;
         const sumColumn = (selector) => Array.from(document.querySelectorAll(selector)).reduce((acc, cell) => acc + parseCurrency(cell.innerText), 0);
         function formatCellAsCurrency(cell, useFractions = true) {
+            if (!cell.innerText) return;
             let value = parseCurrency(cell.innerText);
             if (isNaN(value)) value = 0;
             const options = useFractions ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : { maximumFractionDigits: 2 };
             cell.innerText = value.toLocaleString('en-IN', options);
         }
+        function handleNumericInput(cell, callback) {
+            // This is a simple way to guide users; it doesn't prevent copy-pasting text.
+            // A more robust solution would be more complex and might interfere with user input methods.
+            if (/[^0-9.,]/.test(cell.innerText)) {
+                 // Briefly show invalid input before removing it
+                setTimeout(() => {
+                    const originalText = cell.innerText;
+                    const sanitized = originalText.replace(/[^0-9.,]/g, '');
+                    if (originalText !== sanitized) {
+                        cell.innerText = sanitized;
+                        // Move cursor to end
+                        const range = document.createRange();
+                        const sel = window.getSelection();
+                        range.selectNodeContents(cell);
+                        range.collapse(false);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }, 10);
+            }
+            if (callback) callback();
+        }
+        function filterAuditTable() {
+            const query = document.getElementById('audit-search').value.toUpperCase();
+            document.querySelectorAll('#audit-table-body tr.data-row').forEach(row => {
+                const busCell = row.querySelector('.bus-number-cell');
+                row.style.display = busCell.innerText.toUpperCase().includes(query) ? '' : 'none';
+            });
+        }
+        function filterPayrollTable() {
+            const query = document.getElementById('payroll-search').value.toUpperCase();
+            document.querySelectorAll('#payroll-table-body tr.data-row').forEach(row => {
+                const nameCell = row.querySelector('.name-cell');
+                row.style.display = nameCell.innerText.toUpperCase().includes(query) ? '' : 'none';
+            });
+        }
+
+        // --- EVENT LISTENERS & INITIALIZATION ---
         document.getElementById('mobile-menu-button').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
-
         window.onload = () => {
              document.getElementById('current-year').textContent = new Date().getFullYear();
              showPage('home');
