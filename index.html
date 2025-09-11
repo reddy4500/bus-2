@@ -82,7 +82,7 @@
                 <h2 class="text-4xl font-bold mb-2 text-slate-900">Dashboard</h2>
                 <p class="text-slate-500 text-lg">Select an option to begin.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="group bg-slate-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('monthly-audit-selection')">
                     <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -93,6 +93,18 @@
                     <p class="text-slate-500 mb-6">Enter financial data for each month and bus.</p>
                     <span class="font-semibold text-indigo-600 group-hover:underline">
                         Go to Data Entry &rarr;
+                    </span>
+                </div>
+                 <div class="group bg-slate-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('diesel-selection')">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-600 mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3zm3.146 5.146L8 10.001V15l1.001-1-1.147-1.146a1 1 0 010-1.414l-1.414-1.414a1 1 0 010-1.414L8.586 8l-2.44-2.44A.5.5 0 016.5 5H4v2.5a.5.5 0 01.146.354z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3 text-slate-800">Diesel Audit</h3>
+                    <p class="text-slate-500 mb-6">Track daily diesel consumption for the fleet.</p>
+                     <span class="font-semibold text-purple-600 group-hover:underline">
+                        Go to Diesel Log &rarr;
                     </span>
                 </div>
                 <div class="group bg-slate-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer" onclick="showPage('bus-wise-audit')">
@@ -191,6 +203,63 @@
                 </table>
             </div>
         </section>
+
+        <section id="diesel-selection" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
+            <div class="flex items-center mb-8">
+                <button onclick="showPage('home')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    Back
+                </button>
+                <h2 class="text-3xl font-bold text-slate-900">Select Diesel Audit Month</h2>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <a href="#" onclick="showDieselFile('January')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">January</a>
+                <a href="#" onclick="showDieselFile('February')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">February</a>
+                <a href="#" onclick="showDieselFile('March')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">March</a>
+                <a href="#" onclick="showDieselFile('April')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">April</a>
+                <a href="#" onclick="showDieselFile('May')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">May</a>
+                <a href="#" onclick="showDieselFile('June')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">June</a>
+                <a href="#" onclick="showDieselFile('July')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">July</a>
+                <a href="#" onclick="showDieselFile('August')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">August</a>
+                <a href="#" onclick="showDieselFile('September')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">September</a>
+                <a href="#" onclick="showDieselFile('October')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">October</a>
+                <a href="#" onclick="showDieselFile('November')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">November</a>
+                <a href="#" onclick="showDieselFile('December')" class="text-center font-medium p-4 bg-white shadow-sm border rounded-lg hover:bg-purple-500 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105">December</a>
+            </div>
+        </section>
+
+        <section id="diesel-file" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
+             <div class="flex items-center mb-1">
+                <button onclick="showPage('diesel-selection')" class="flex items-center text-indigo-600 hover:text-indigo-800 font-medium transition-colors mr-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    Back
+                </button>
+                <h2 class="text-3xl font-bold text-slate-900">Diesel Log: <span id="diesel-file-month"></span></h2>
+            </div>
+            <p class="text-sm text-slate-500 mb-6 ml-16">Enter diesel amount in each cell. Totals are updated automatically.</p>
+            
+            <div class="flex justify-end items-center mb-4">
+                <div class="flex gap-4">
+                     <button onclick="exportDieselToCSV()" class="flex items-center gap-2 bg-slate-600 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a1 1 0 000-2H4a1 1 0 000 2zM8 16a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1zM4 16a1 1 0 011-1h2a1 1 0 110 2H5a1 1 0 01-1-1z" /><path fill-rule="evenodd" d="M5 8a3 3 0 016 0v8a3 3 0 11-6 0V8zm3-1a1 1 0 00-1 1v8a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                        Export to CSV
+                    </button>
+                    <button onclick="saveDieselData()" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors shadow-sm font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-lg border">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-slate-100 sticky top-0" id="diesel-table-head"></thead>
+                    <tbody class="bg-slate-50 divide-y divide-slate-200" id="diesel-table-body"></tbody>
+                    <tfoot class="bg-slate-200 font-bold sticky bottom-0" id="diesel-table-foot"></tfoot>
+                </table>
+            </div>
+        </section>
+
 
         <section id="bus-wise-audit" class="page bg-slate-50 p-8 rounded-2xl shadow-lg">
             <div class="flex items-center mb-6">
@@ -364,7 +433,9 @@
         const pages = document.querySelectorAll('.page');
         let profitLossChartInstance = null;
         let revenuePieChartInstance = null;
-        let monthlyBusChartInstance = null; // <-- NEW: For the individual bus chart
+        let monthlyBusChartInstance = null;
+        const DIESEL_BUS_NUMBERS = ['9721', '9722', '9932', '9935', '9937', '9938', '4680', '4681', '4319', '4320'];
+
         
         // --- Page Navigation ---
         function showPage(pageId) {
@@ -418,6 +489,148 @@
                 console.error("Error saving audit data: ", error);
                 alert("Error saving data to Firebase. See console for details.");
             }
+        }
+        
+        // ======================================================= //
+        // NEW DIESEL AUDIT FUNCTIONS                            //
+        // ======================================================= //
+        async function showDieselFile(month) {
+            document.getElementById('diesel-file-month').textContent = month;
+            try {
+                const snapshot = await database.ref(`dieselData/${month}`).once('value');
+                const dieselData = snapshot.val() || {};
+                buildDieselTable(month, dieselData);
+                showPage('diesel-file');
+            } catch (error) {
+                console.error("Could not fetch diesel data: ", error);
+                alert("Error fetching data. Check console for details.");
+            }
+        }
+
+        function buildDieselTable(month, data) {
+            const year = new Date().getFullYear();
+            const monthIndex = new Date(Date.parse(month + " 1, 2012")).getMonth();
+            const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+
+            const tableHead = document.getElementById('diesel-table-head');
+            const tableBody = document.getElementById('diesel-table-body');
+            const tableFoot = document.getElementById('diesel-table-foot');
+
+            // Clear previous table
+            tableHead.innerHTML = '';
+            tableBody.innerHTML = '';
+            tableFoot.innerHTML = '';
+
+            // Build Header
+            let headerRow = '<tr><th class="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider sticky left-0 bg-slate-100 z-10">Bus No.</th>';
+            for (let i = 1; i <= daysInMonth; i++) {
+                headerRow += `<th class="p-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">${i}</th>`;
+            }
+            headerRow += '<th class="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider sticky right-0 bg-slate-100 z-10">Bus Total</th></tr>';
+            tableHead.innerHTML = headerRow;
+
+            // Build Body
+            DIESEL_BUS_NUMBERS.forEach(bus => {
+                let bodyRow = `<tr data-bus="${bus}">`;
+                bodyRow += `<td class="p-2 whitespace-nowrap font-semibold text-slate-700 sticky left-0 bg-slate-50">${bus}</td>`;
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const value = data[bus] && data[bus][i] ? data[bus][i] : '';
+                    bodyRow += `<td class="p-1 whitespace-nowrap text-center text-slate-800 diesel-input-cell" contenteditable="true" data-day="${i}" onblur="updateDieselTotals()">${value}</td>`;
+                }
+                bodyRow += `<td class="p-2 whitespace-nowrap font-bold text-indigo-700 sticky right-0 bg-slate-100 bus-total-cell">0</td>`;
+                bodyRow += '</tr>';
+                tableBody.innerHTML += bodyRow;
+            });
+
+            // Build Footer
+            let footerRow = '<tr><td class="p-3 font-semibold text-slate-800 sticky left-0 bg-slate-200">Daily Total</td>';
+            for (let i = 1; i <= daysInMonth; i++) {
+                footerRow += `<td class="p-3 whitespace-nowrap font-bold text-center day-total-cell" data-day-total="${i}">0</td>`;
+            }
+            footerRow += `<td class="p-3 whitespace-nowrap font-extrabold text-lg text-indigo-800 sticky right-0 bg-slate-300 grand-total-cell">0</td></tr>`;
+            tableFoot.innerHTML = footerRow;
+
+            updateDieselTotals(); // Calculate initial totals
+        }
+        
+        function updateDieselTotals() {
+            let grandTotal = 0;
+            const daysInMonth = document.querySelectorAll('#diesel-table-head th').length - 2;
+
+            // Row totals (Bus-wise)
+            document.querySelectorAll('#diesel-table-body tr').forEach(row => {
+                let rowTotal = 0;
+                row.querySelectorAll('.diesel-input-cell').forEach(cell => {
+                    rowTotal += parseCurrency(cell.innerText);
+                });
+                row.querySelector('.bus-total-cell').innerText = rowTotal.toLocaleString();
+                grandTotal += rowTotal;
+            });
+
+            // Column totals (Day-wise)
+            for (let i = 1; i <= daysInMonth; i++) {
+                let colTotal = 0;
+                document.querySelectorAll(`#diesel-table-body .diesel-input-cell[data-day="${i}"]`).forEach(cell => {
+                    colTotal += parseCurrency(cell.innerText);
+                });
+                document.querySelector(`#diesel-table-foot .day-total-cell[data-day-total="${i}"]`).innerText = colTotal.toLocaleString();
+            }
+
+            // Grand total
+            document.querySelector('.grand-total-cell').innerText = grandTotal.toLocaleString();
+        }
+
+        async function saveDieselData() {
+            const month = document.getElementById('diesel-file-month').textContent;
+            if (!month) return alert('Error: No diesel audit month selected.');
+
+            const monthData = {};
+            document.querySelectorAll('#diesel-table-body tr').forEach(row => {
+                const busNumber = row.dataset.bus;
+                monthData[busNumber] = {};
+                row.querySelectorAll('.diesel-input-cell').forEach(cell => {
+                    const day = cell.dataset.day;
+                    const value = parseCurrency(cell.innerText);
+                    if (value > 0) {
+                        monthData[busNumber][day] = value;
+                    }
+                });
+            });
+
+            try {
+                await database.ref(`dieselData/${month}`).set(monthData);
+                alert(`Diesel data for ${month} saved successfully!`);
+            } catch (error) {
+                console.error("Error saving diesel data: ", error);
+                alert("Error saving data to Firebase. See console for details.");
+            }
+        }
+        
+        function exportDieselToCSV() {
+            const month = document.getElementById('diesel-file-month').textContent;
+            let csvContent = "data:text/csv;charset=utf-8,";
+            
+            // Headers
+            const headers = Array.from(document.querySelectorAll('#diesel-table-head th')).map(th => th.innerText);
+            csvContent += headers.join(',') + '\n';
+
+            // Body
+            document.querySelectorAll('#diesel-table-body tr').forEach(row => {
+                const rowData = Array.from(row.querySelectorAll('td')).map(td => `"${td.innerText}"`);
+                csvContent += rowData.join(',') + '\n';
+            });
+            
+            // Footer
+            const footers = Array.from(document.querySelectorAll('#diesel-table-foot td')).map(td => `"${td.innerText}"`);
+            csvContent += footers.join(',') + '\n';
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `diesel_audit_${month.toLowerCase()}_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         // ======================================================= //
@@ -737,7 +950,6 @@
                 options: { responsive: true, plugins: { legend: { position: 'top' }}}
             });
         }
-        // <-- NEW --> Chart function for individual bus monthly trend
         function createMonthlyBusChart(labels, revenueData, expenseData, profitData) {
             const ctx = document.getElementById('monthlyBusChart').getContext('2d');
             if (monthlyBusChartInstance) monthlyBusChartInstance.destroy();
