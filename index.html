@@ -1,392 +1,73 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YASWANTH Fleet Audit</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* slate-900 */
-        }
-        .page {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* Improved Content Editable Styles */
-        [contenteditable="true"] {
-            cursor: pointer;
-            outline: none;
-            padding: 6px 8px;
-            border-radius: 6px;
-            transition: background-color 0.2s, box-shadow 0.2s;
-            background-color: transparent;
-        }
-        [contenteditable="true"]:hover {
-            background-color: rgba(71, 85, 105, 0.3); /* slate-700 with opacity */
-        }
-        [contenteditable="true"]:focus {
-            background-color: #334155; /* slate-700 */
-            box-shadow: 0 0 0 2px #3b82f6; /* blue-500 focus ring */
-        }
-        [contenteditable=true]:empty:before {
-            content: attr(data-placeholder);
-            color: #64748b; /* slate-500 */
-            font-style: italic;
-        }
-        /* Chart.js dark theme settings */
-        Chart.defaults.color = '#94a3b8'; /* slate-400 */
-        Chart.defaults.borderColor = 'rgba(51, 65, 85, 0.5)';
-        Chart.defaults.plugins.legend.labels.color = '#cbd5e1'; /* slate-300 */
-    </style>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-slate-900 text-slate-200">
+<body class="bg-gradient-to-br from-blue-100 to-indigo-200 text-slate-800">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+    <div class="container mx-auto p-7 md:p-14 max-w-7xl">
 
-        <header class="flex justify-between items-center fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] max-w-7xl z-50 p-4 rounded-xl bg-slate-800/60 backdrop-blur-lg border border-slate-700 shadow-lg">
-            <div class="flex items-center gap-3">
-                <img src="1.jpg.jpg" alt="Yaswanth Logo" class="h-10 w-10 rounded-full border-2 border-slate-600">
-                <span class="text-xl font-bold text-white hidden sm:block">YASWANTH</span>
+        <header class="flex justify-between items-center mb-8 bg-white/80 backdrop-blur-lg fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] md:w-[calc(100%-4rem)] max-w-7xl z-50 p-4 md:p-6 rounded-xl shadow-lg shadow-slate-900/5">
+            <div class="flex items-center gap-2">
+                <img src="1.jpg.png" alt="Yaswanth Logo" class="h-12">
             </div>
-            <nav class="hidden md:flex items-center space-x-2 bg-slate-700/50 p-1 rounded-lg">
-                <a href="#" onclick="showPage('home')" class="nav-link text-slate-300 hover:bg-slate-700 hover:text-white font-medium transition-colors px-4 py-2 rounded-md">Home</a>
-                <a href="#" onclick="showPage('bus-wise-audit')" class="nav-link text-slate-300 hover:bg-slate-700 hover:text-white font-medium transition-colors px-4 py-2 rounded-md">Fleet Reports</a>
-                <a href="#" onclick="showPage('payroll-selection')" class="nav-link text-slate-300 hover:bg-slate-700 hover:text-white font-medium transition-colors px-4 py-2 rounded-md">Payroll</a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" onclick="showPage('home')" class="text-slate-600 hover:text-indigo-500 font-medium transition-colors">Home</a>
+                <a href="#" onclick="showPage('bus-wise-audit')" class="text-slate-600 hover:text-indigo-500 font-medium transition-colors">Fleet Reports</a>
+                <a href="#" onclick="showPage('payroll-selection')" class="text-slate-600 hover:text-indigo-500 font-medium transition-colors">Payroll</a>
             </nav>
-            <button id="mobile-menu-button" class="md:hidden text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-700">
+            <button id="mobile-menu-button" class="md-hidden text-slate-600 hover:text-indigo-500">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </header>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-slate-800 border border-slate-700 rounded-xl shadow-lg mt-4 p-4 fixed top-20 left-4 right-4 z-40">
-            <a href="#" onclick="showPage('home')" class="block py-2 text-slate-200 hover:bg-slate-700 rounded-md px-3 nav-link">Home</a>
-            <a href="#" onclick="showPage('bus-wise-audit')" class="block py-2 text-slate-200 hover:bg-slate-700 rounded-md px-3 nav-link">Fleet Reports</a>
-            <a href="#" onclick="showPage('payroll-selection')" class="block py-2 text-slate-200 hover:bg-slate-700 rounded-md px-3 nav-link">Payroll</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-50 rounded-xl shadow-lg mb-8 p-4 fixed top-24 left-4 right-4 z-40">
+            <a href="#" onclick="showPage('home')" class="block py-2 text-slate-600 hover:text-indigo-500 rounded-md px-3">Home</a>
+            <a href="#" onclick="showPage('bus-wise-audit')" class="block py-2 text-slate-600 hover:text-indigo-500 rounded-md px-3">Fleet Reports</a>
+            <a href="#" onclick="showPage('payroll-selection')" class="block py-2 text-slate-600 hover:text-indigo-500 rounded-md px-3">Payroll</a>
         </div>
 
         <div class="h-24"></div>
 
         <main id="home" class="page">
-            <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight">Fleet Management Dashboard</h1>
-                <p class="text-slate-400 text-lg mt-2">Welcome! Select a module to get started.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <div class="group bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-1 cursor-pointer border border-slate-700 hover:border-blue-500" onclick="showPage('monthly-audit-selection')">
-                    <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-blue-600 text-white mb-5 shadow-md shadow-blue-600/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Monthly Audit Entry</h3>
-                    <p class="text-slate-400 text-sm">Enter monthly revenue and expenses for each bus in the fleet.</p>
-                </div>
+            </main>
 
-                <div class="group bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-1 cursor-pointer border border-slate-700 hover:border-blue-500" onclick="showPage('diesel-selection')">
-                    <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-blue-600 text-white mb-5 shadow-md shadow-blue-600/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
-                           <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2V4zM5 12a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2zM11 1.5a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1a.5.5 0 01.5-.5zM11 9.5a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1a.5.5 0 01.5-.5z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Diesel Audit</h3>
-                    <p class="text-slate-400 text-sm">Track daily diesel consumption and manage fuel expenses.</p>
-                </div>
+        <section id="monthly-audit-selection" class="page">
+            </section>
 
-                <div class="group bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-1 cursor-pointer border border-slate-700 hover:border-blue-500" onclick="showPage('bus-wise-audit')">
-                    <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-blue-600 text-white mb-5 shadow-md shadow-blue-600/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">View Fleet Reports</h3>
-                    <p class="text-slate-400 text-sm">Analyze aggregated profit, loss, and performance data.</p>
-                </div>
-                
-                <div class="group bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-1 cursor-pointer border border-slate-700 hover:border-blue-500" onclick="showPage('payroll-selection')">
-                    <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-blue-600 text-white mb-5 shadow-md shadow-blue-600/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Payroll</h3>
-                    <p class="text-slate-400 text-sm">Calculate and manage driver payments and deductions.</p>
-                </div>
-            </div>
-        </main>
+        <section id="audit-file" class="page">
+             </section>
 
-        <div id="monthly-audit-selection" class="page"></div>
-        <div id="audit-file" class="page"></div>
-        <div id="diesel-selection" class="page"></div>
-        <div id="diesel-file" class="page"></div>
-        <div id="bus-wise-audit" class="page"></div>
-        <div id="payroll-selection" class="page"></div>
-        <div id="payroll-file" class="page"></div>
+        <section id="diesel-selection" class="page">
+             </section>
 
-    </div> <template id="template-month-selection">
-        <div class="bg-slate-800 p-6 md:p-8 rounded-xl border border-slate-700">
-            <div class="flex items-center mb-8">
-                <button class="back-button flex items-center text-slate-300 hover:text-white font-medium transition-colors mr-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                    Back
-                </button>
-                <h2 class="text-2xl md:text-3xl font-bold text-white" id="selection-title"></h2>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" id="month-grid">
-                </div>
-        </div>
-    </template>
+        <section id="diesel-file" class="page">
+             </section>
 
-    <script>
-        // --- Firebase Configuration ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyBQrSN31bs0dqpyZVT_IeGktPEy7rMrqcQ",
-            authDomain: "yaswanth-fleet.firebaseapp.com",
-            databaseURL: "https://yaswanth-fleet-default-rtdb.firebaseio.com",
-            projectId: "yaswanth-fleet",
-            storageBucket: "yaswanth-fleet.appspot.com",
-            messagingSenderId: "44710091269",
-            appId: "1:44710091269:web:6bffc1ab51aa52723e9a6c",
-            measurementId: "G-LLY5VJN3N6"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        // --- Global Variables & Constants ---
-        const pages = document.querySelectorAll('.page');
-        let profitLossChartInstance = null;
-        let revenuePieChartInstance = null;
-        let monthlyBusChartInstance = null;
-        const DIESEL_BUS_NUMBERS = ['9721', '9722', '9932', '9935', '9937', '9938', '4680', '4681', '4319', '4320'];
-        const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-
-        // --- Page Navigation & UI LOGIC ---
-        function showPage(pageId) {
-            pages.forEach(page => page.style.display = 'none');
-            const activePage = document.getElementById(pageId);
-            if (activePage) {
-                // Check if page needs to be built dynamically
-                if (pageId.endsWith('-selection')) {
-                   buildSelectionPage(pageId);
-                }
-                activePage.style.display = 'block';
-            }
-            
-            // Highlight active nav link
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('bg-slate-700', 'text-white');
-                if (link.getAttribute('onclick').includes(`'${pageId}'`)) {
-                    link.classList.add('bg-slate-700', 'text-white');
-                } else if (pageId.includes('audit') && link.getAttribute('onclick').includes(`'home'`)) {
-                    // Keep Home active for sub-pages, for example
-                }
-            });
-            
-            document.getElementById('mobile-menu').classList.add('hidden');
-
-            if (pageId === 'bus-wise-audit') {
-                createOrUpdateCharts();
-            }
-        }
-
-        function buildSelectionPage(pageId) {
-            const pageContainer = document.getElementById(pageId);
-            const template = document.getElementById('template-month-selection').content.cloneNode(true);
-            const monthGrid = template.getElementById('month-grid');
-            let config = {};
-
-            if (pageId === 'monthly-audit-selection') {
-                config = {
-                    title: 'Select Audit Period',
-                    callback: 'showAuditFile',
-                    hoverClass: 'hover:bg-blue-500 hover:border-blue-500'
-                };
-            } else if (pageId === 'diesel-selection') {
-                config = {
-                    title: 'Select Diesel Audit Month',
-                    callback: 'showDieselFile',
-                    hoverClass: 'hover:bg-purple-500 hover:border-purple-500'
-                };
-            } else if (pageId === 'payroll-selection') {
-                config = {
-                    title: 'Select Payroll Month',
-                    callback: 'showPayrollFile',
-                    hoverClass: 'hover:bg-amber-500 hover:border-amber-500'
-                };
-            }
-
-            template.getElementById('selection-title').textContent = config.title;
-            template.querySelector('.back-button').onclick = () => showPage('home');
-            
-            MONTHS.forEach(month => {
-                const link = document.createElement('a');
-                link.href = "#";
-                link.textContent = month;
-                link.className = `text-center font-medium p-4 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-300 hover:text-white hover:shadow-lg transition-all duration-200 transform hover:scale-105 ${config.hoverClass}`;
-                link.onclick = (e) => { e.preventDefault(); window[config.callback](month); };
-                monthGrid.appendChild(link);
-            });
-            
-            pageContainer.innerHTML = '';
-            pageContainer.appendChild(template);
-        }
-       
-       // ... THE REST OF YOUR JAVASCRIPT LOGIC REMAINS IDENTICAL ...
-       // (No changes needed for Firebase, chart creation, table calculations, etc.)
-       // I've omitted it here for brevity, but you should copy and paste
-       // your entire existing script block below this comment.
-
-        // --- MODIFIED & NEW HELPER FUNCTIONS FOR UI ---
-        function showAuditFile(month) {
-            const pageContainer = document.getElementById('audit-file');
-            pageContainer.innerHTML = `
-                <div class="bg-slate-800 p-6 md:p-8 rounded-xl border border-slate-700">
-                    <div class="flex items-center mb-1">
-                        <button onclick="showPage('monthly-audit-selection')" class="flex items-center text-slate-300 hover:text-white font-medium transition-colors mr-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                            Back
-                        </button>
-                        <h2 class="text-2xl md:text-3xl font-bold text-white">Audit File: <span id="audit-file-month" class="text-blue-400">${month}</span></h2>
-                    </div>
-                    <p class="text-sm text-slate-400 mb-6 ml-16">Click cells to edit. Totals are updated on blur. Click Save to persist changes.</p>
-                    
-                    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
-                        <button onclick="addRow()" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-slate-700 text-slate-200 px-4 py-2 rounded-lg hover:bg-slate-600 transition-colors shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-                            Add Row
-                        </button>
-                        <div class="flex w-full sm:w-auto gap-4">
-                            <button onclick="exportToCSV()" class="w-full flex items-center justify-center gap-2 bg-slate-700 text-slate-200 px-4 py-2 rounded-lg hover:bg-slate-600 transition-colors shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                                Export
-                            </button>
-                            <button onclick="saveTableData()" class="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors shadow-sm font-semibold">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="overflow-x-auto rounded-lg border border-slate-700">
-                        <table class="min-w-full text-sm">
-                            <thead class="bg-slate-700">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">S.No</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Bus Number</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Credited Money</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Expenses</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Money Left</th>
-                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-slate-400 uppercase tracking-wider">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-slate-800 divide-y divide-slate-700" id="audit-table-body"></tbody>
-                            <tfoot class="bg-slate-700 font-bold" id="audit-table-foot"></tfoot>
-                        </table>
-                    </div>
-                </div>
-            `;
-            // The rest of the original showAuditFile logic to fetch and build table
-            fetchAndBuildAuditTable(month);
-            showPage('audit-file');
-        }
-
-        async function fetchAndBuildAuditTable(month) {
-            try {
-                const snapshot = await database.ref(`auditData/${month}`).once('value');
-                const monthData = snapshot.val() || [];
-                const dataArray = Array.isArray(monthData) ? monthData : Object.values(monthData);
-                buildTableWithData(dataArray);
-            } catch (error) {
-                console.error("Could not fetch audit data: ", error);
-                alert("Error fetching data. Check console for details.");
-            }
-        }
+        <section id="bus-wise-audit" class="page">
+             </section>
         
-       // --- Paste your original JavaScript functions here ---
-       // For example:
-       // saveTableData()
-       // showDieselFile() -> This will also need to be adapted like showAuditFile to build the HTML structure
-       // buildDieselTable()
-       // updateDieselTotals()
-       // etc...
-       
-       // Example of adapting another function:
-       function showDieselFile(month) {
-           const pageContainer = document.getElementById('diesel-file');
-           pageContainer.innerHTML = `
-                <div class="bg-slate-800 p-6 md:p-8 rounded-xl border border-slate-700">
-                    <div class="flex items-center mb-1">
-                        <button onclick="showPage('diesel-selection')" class="flex items-center text-slate-300 hover:text-white font-medium transition-colors mr-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                            Back
-                        </button>
-                        <h2 class="text-2xl md:text-3xl font-bold text-white">Diesel Log: <span id="diesel-file-month" class="text-purple-400">${month}</span></h2>
-                    </div>
-                    <p class="text-sm text-slate-400 mb-6 ml-16">Enter diesel amount in each cell. Totals are updated automatically.</p>
-                    
-                    <div class="flex justify-end items-center mb-4 gap-4">
-                        <button onclick="exportDieselToCSV()" class="flex items-center justify-center gap-2 bg-slate-700 text-slate-200 px-4 py-2 rounded-lg hover:bg-slate-600 transition-colors shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                            Export
-                        </button>
-                        <button onclick="saveDieselData()" class="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors shadow-sm font-semibold">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                            Save Changes
-                        </button>
-                    </div>
+        <section id="payroll-selection" class="page">
+             </section>
 
-                    <div class="overflow-x-auto rounded-lg border border-slate-700">
-                        <table class="min-w-full text-sm">
-                            <thead class="bg-slate-700 sticky top-0 z-20" id="diesel-table-head"></thead>
-                            <tbody class="bg-slate-800 divide-y divide-slate-700" id="diesel-table-body"></tbody>
-                            <tfoot class="bg-slate-700 font-bold sticky bottom-0 z-20" id="diesel-table-foot"></tfoot>
-                        </table>
-                    </div>
-                </div>
-           `;
-           fetchAndBuildDieselTable(month);
-           showPage('diesel-file');
-       }
-       
-       async function fetchAndBuildDieselTable(month) {
-            try {
-                const snapshot = await database.ref(`dieselData/${month}`).once('value');
-                const dieselData = snapshot.val() || {};
-                buildDieselTable(month, dieselData);
-            } catch (error) {
-                console.error("Could not fetch diesel data: ", error);
-                alert("Error fetching data. Check console for details.");
-            }
-       }
+        <section id="payroll-file" class="page">
+             </section>
+    </div>
 
-        // You will need to continue this pattern for showPayrollFile() and createOrUpdateCharts()
-        // to inject the appropriate HTML structure into their respective page containers.
-        // The core logic inside the functions remains the same.
-        
-        // --- Remaining JS code from your original file goes here ---
-        // ...
-        
-        // Initial page load
-        document.addEventListener('DOMContentLoaded', () => {
-            showPage('home');
-        });
-    </script>
+    <script src="script.js"></script>
 
 </body>
 </html>
