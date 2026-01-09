@@ -507,50 +507,56 @@
             }
         }
 
-        function buildDieselTable(month, data) {
-            const year = new Date().getFullYear();
-            const monthIndex = new Date(Date.parse(month + " 1, 2012")).getMonth();
-            const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+// Locate this function in your index.html
+function buildDieselTable(month, data) {
+    const year = new Date().getFullYear();
+    const monthIndex = new Date(Date.parse(month + " 1, 2012")).getMonth();
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
 
-            const tableHead = document.getElementById('diesel-table-head');
-            const tableBody = document.getElementById('diesel-table-body');
-            const tableFoot = document.getElementById('diesel-table-foot');
+    const tableHead = document.getElementById('diesel-table-head');
+    const tableBody = document.getElementById('diesel-table-body');
+    const tableFoot = document.getElementById('diesel-table-foot');
 
-            // Clear previous table
-            tableHead.innerHTML = '';
-            tableBody.innerHTML = '';
-            tableFoot.innerHTML = '';
+    // --- YOUR NEW CODE FROM IMAGE STARTS HERE ---
+    
+    // Clear previous table
+    tableHead.innerHTML = '';
+    tableBody.innerHTML = '';
+    tableFoot.innerHTML = '';
 
-            // Build Header
-            let headerRow = '<tr><th class="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider sticky left-0 bg-slate-100 z-10">Bus No.</th>';
-            for (let i = 1; i <= daysInMonth; i++) {
-                headerRow += `<th class="p-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">${i}</th>`;
-            }
-            headerRow += '<th class="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider sticky right-0 bg-slate-100 z-10">Bus Total</th></tr>';
-            tableHead.innerHTML = headerRow;
+    // Build Header
+    let headerRow = '<tr><th class="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider sticky left-0 bg-slate-100 z-10">Bus No.</th>';
+    for (let i = 1; i <= daysInMonth; i++) {
+        headerRow += `<th class="p-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">${i}</th>`;
+    }
+    headerRow += '<th class="p-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider sticky right-0 bg-slate-100 z-10">Bus Total</th></tr>';
+    tableHead.innerHTML = headerRow;
 
-            // Build Body
-            DIESEL_BUS_NUMBERS.forEach(bus => {
-                let bodyRow = `<tr data-bus="${bus}">`;
-                bodyRow += `<td class="p-2 whitespace-nowrap font-semibold text-slate-700 sticky left-0 bg-slate-50">${bus}</td>`;
-                for (let i = 1; i <= daysInMonth; i++) {
-                    const value = data[bus] && data[bus][i] ? data[bus][i] : '';
-                    bodyRow += `<td class="p-1 whitespace-nowrap text-center text-slate-800 diesel-input-cell" contenteditable="true" data-day="${i}" onblur="updateDieselTotals()">${value}</td>`;
-                }
-                bodyRow += `<td class="p-2 whitespace-nowrap font-bold text-indigo-700 sticky right-0 bg-slate-100 bus-total-cell">0</td>`;
-                bodyRow += '</tr>';
-                tableBody.innerHTML += bodyRow;
-            });
+    // Build Body
+    DIESEL_BUS_NUMBERS.forEach(bus => {
+        let bodyRow = `<tr data-bus="${bus}">`;
+        bodyRow += `<td class="p-2 whitespace-nowrap font-semibold text-slate-700 sticky left-0 bg-slate-50">${bus}</td>`;
+        for (let i = 1; i <= daysInMonth; i++) {
+            const value = data[bus] && data[bus][i] ? data[bus][i] : '';
+            bodyRow += `<td class="p-1 whitespace-nowrap text-center text-slate-800 diesel-input-cell" contenteditable="true" data-day="${i}" onblur="updateDieselTotals()">${value}</td>`;
+        }
+        bodyRow += `<td class="p-2 whitespace-nowrap font-bold text-indigo-700 sticky right-0 bg-slate-100 bus-total-cell">0</td>`;
+        bodyRow += '</tr>';
+        tableBody.innerHTML += bodyRow;
+    });
 
-            // Build Footer
-            let footerRow = '<tr><td class="p-3 font-semibold text-slate-800 sticky left-0 bg-slate-200">Daily Total</td>';
-            for (let i = 1; i <= daysInMonth; i++) {
-                footerRow += `<td class="p-3 whitespace-nowrap font-bold text-center day-total-cell" data-day-total="${i}">0</td>`;
-            }
-            footerRow += `<td class="p-3 whitespace-nowrap font-extrabold text-lg text-indigo-800 sticky right-0 bg-slate-300 grand-total-cell">0</td></tr>`;
-            tableFoot.innerHTML = footerRow;
+    // Build Footer
+    let footerRow = '<tr><td class="p-3 font-semibold text-slate-800 sticky left-0 bg-slate-200">Daily Total</td>';
+    for (let i = 1; i <= daysInMonth; i++) {
+        footerRow += `<td class="p-3 whitespace-nowrap font-bold text-center day-total-cell" data-day-total="${i}">0</td>`;
+    }
+    footerRow += `<td class="p-3 whitespace-nowrap font-extrabold text-lg text-indigo-800 sticky right-0 bg-slate-300 grand-total-cell">0</td></tr>`;
+    tableFoot.innerHTML = footerRow;
 
-            updateDieselTotals(); // Calculate initial totals
+    // --- END OF NEW CODE ---
+
+    updateDieselTotals(); 
+}
         }
         
         function updateDieselTotals() {
